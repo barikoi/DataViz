@@ -1,0 +1,20 @@
+-- Some CSV Parsers: Papaparse, csv.js
+-- Need Data to be in a string format fetched from the CSV file to use
+    i.e.
+    "Header1,Header2,Header3
+     Data1,Data2,Data3
+     Data4,Data5,Data6
+     .................."
+-- Dataset data format
+    {
+        fields: [
+            {name: 'Header1', format: '', type: 'String'},
+            {name: 'Header2', format: '', type: 'String'},
+            {name: 'Header3', format: '', type: 'String'}
+        ],
+        rows: [
+            [Row1Data1, Row1Data2, Row1Data3],
+            [Row2Data1, Row2Data2, Row2Data3],
+            [Row3Data1, Row3Data2, Row3Data3]
+        ]
+    }
