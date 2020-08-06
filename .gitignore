@@ -7,6 +7,7 @@
 src/resources/new_places.csv
 src/resources/places_new_202008041355.json
 src/resources/subtype_202008041436.csv
+notes.txt
 
 # testing
 /coverage
