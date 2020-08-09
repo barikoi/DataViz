@@ -2,7 +2,7 @@ import { processCsvData } from 'kepler.gl/processors';
 import { wrapTo, addDataToMap, updateMap, resetMapConfig } from 'kepler.gl/actions';
 import { bindConfigToData } from './actionUtils.js';
 
-import csvData from '../../data/places.csv.js';
+import csvData from '../../data/new_places.csv.js';
 import pointLayerConfig from '../../configs/pointLayerConfig.json';
 import gridLayoutConfig from '../../configs/gridLayerConfig.json';
 
