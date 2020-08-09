@@ -1,0 +1,1 @@
+** Problem with 'created_at' and 'updated_at' fields .. Should be time/date type instead of string

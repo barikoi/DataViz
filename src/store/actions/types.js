@@ -1,0 +1,1 @@
+export const LOAD_DATA_TO_MAP = 'LOAD_DATA_TO_MAP';

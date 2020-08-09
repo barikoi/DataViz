@@ -1,0 +1,349 @@
+{
+    "keplerGl": {
+        "map": {
+            "visState": {
+                "mapInfo": {
+                    "title": "",
+                    "description": ""
+                },
+                "layers": [],
+                "layerData": [],
+                "layerToBeMerged": [],
+                "layerOrder": [],
+                "filters": [],
+                "filterToBeMerged": [],
+                "datasets": {},
+                "interactionConfig": {
+                    "tooltip": {
+                        "id": "tooltip",
+                        "label": "interactions.tooltip",
+                        "enabled": true,
+                        "config": {
+                            "fieldsToShow": {},
+                            "compareMode": false,
+                            "compareType": "absolute"
+                        }
+                    },
+                    "geocoder": {
+                        "id": "geocoder",
+                        "label": "interactions.geocoder",
+                        "enabled": false,
+                        "position": null
+                    },
+                    "brush": {
+                        "id": "brush",
+                        "label": "interactions.brush",
+                        "enabled": false,
+                        "config": {
+                            "size": 0.5
+                        }
+                    },
+                    "coordinate": {
+                        "id": "coordinate",
+                        "label": "interactions.coordinate",
+                        "enabled": false,
+                        "position": null
+                    }
+                },
+                "layerBlending": "normal",
+                "mousePos": {},
+                "splitMaps": [],
+                "layerClasses": {},
+                "animationConfig": {
+                    "domain": null,
+                    "currentTime": null,
+                    "speed": 1
+                },
+                "editor": {
+                    "mode": "DRAW_POLYGON",
+                    "features": [],
+                    "selectedFeature": null,
+                    "visible": true
+                },
+                "fileLoading": false,
+                "fileLoadingProgress": {},
+                "loaders": [],
+                "loadOptions": {},
+                "initialState": {}
+            },
+            "mapState": {
+                "pitch": 0,
+                "bearing": 0,
+                "latitude": 37.75043,
+                "longitude": -122.34679,
+                "zoom": 9,
+                "dragRotate": false,
+                "width": 800,
+                "height": 800,
+                "isSplit": false,
+                "initialState": {}
+            },
+            "mapStyle": {
+                "styleType": "dark",
+                "visibleLayerGroups": {},
+                "topLayerGroups": {},
+                "mapStyles": {
+                    "dark": {
+                        "id": "dark",
+                        "label": "Dark",
+                        "url": "mapbox://styles/uberdata/cjoqbbf6l9k302sl96tyvka09",
+                        "icon": "https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/geodude/UBER_DARK_V2.png",
+                        "layerGroups": [
+                            {
+                                "slug": "label",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "road",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "border",
+                                "defaultVisibility": false
+                            },
+                            {
+                                "slug": "building",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "water",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "land",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "3d building",
+                                "defaultVisibility": false
+                            }
+                        ]
+                    },
+                    "light": {
+                        "id": "light",
+                        "label": "Light",
+                        "url": "mapbox://styles/uberdata/cjoqb9j339k1f2sl9t5ic5bn4",
+                        "icon": "https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/geodude/UBER_LIGHT_V2.png",
+                        "layerGroups": [
+                            {
+                                "slug": "label",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "road",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "border",
+                                "defaultVisibility": false
+                            },
+                            {
+                                "slug": "building",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "water",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "land",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "3d building",
+                                "defaultVisibility": false
+                            }
+                        ]
+                    },
+                    "muted": {
+                        "id": "muted",
+                        "label": "Muted Light",
+                        "url": "mapbox://styles/uberdata/cjfyl03kp1tul2smf5v2tbdd4",
+                        "icon": "https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/geodude/UBER_MUTED_LIGHT.png",
+                        "layerGroups": [
+                            {
+                                "slug": "label",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "road",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "border",
+                                "defaultVisibility": false
+                            },
+                            {
+                                "slug": "building",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "water",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "land",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "3d building",
+                                "defaultVisibility": false
+                            }
+                        ]
+                    },
+                    "muted_night": {
+                        "id": "muted_night",
+                        "label": "Muted Night",
+                        "url": "mapbox://styles/uberdata/cjfxhlikmaj1b2soyzevnywgs",
+                        "icon": "https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/geodude/UBER_MUTED_NIGHT.png",
+                        "layerGroups": [
+                            {
+                                "slug": "label",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "road",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "border",
+                                "defaultVisibility": false
+                            },
+                            {
+                                "slug": "building",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "water",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "land",
+                                "defaultVisibility": true
+                            },
+                            {
+                                "slug": "3d building",
+                                "defaultVisibility": false
+                            }
+                        ]
+                    },
+                    "satellite": {
+                        "id": "satellite",
+                        "label": "Satellite",
+                        "url": "mapbox://styles/mapbox/satellite-v9",
+                        "icon": "https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/geodude/UBER_SATELLITE.png"
+                    }
+                },
+                "mapboxApiAccessToken": "pk.eyJ1IjoiaGFmaXp1cm1pbG9uIiwiYSI6ImNrZGZrbjF5MjF6anAydHBnNXBqYmw5OTMifQ.3ZklXlDLDepZgjJKeRh2oQ",
+                "mapboxApiUrl": "https://api.mapbox.com",
+                "mapStylesReplaceDefault": false,
+                "inputStyle": {
+                    "accessToken": null,
+                    "error": false,
+                    "isValid": false,
+                    "label": null,
+                    "style": null,
+                    "url": null,
+                    "icon": null,
+                    "custom": true
+                },
+                "threeDBuildingColor": [
+                    209,
+                    206,
+                    199
+                ],
+                "custom3DBuildingColor": false,
+                "initialState": {}
+            },
+            "uiState": {
+                "readOnly": false,
+                "activeSidePanel": "layer",
+                "currentModal": "addData",
+                "datasetKeyToRemove": null,
+                "visibleDropdown": null,
+                "exportImage": {
+                    "ratio": "SCREEN",
+                    "resolution": "ONE_X",
+                    "legend": false,
+                    "mapH": 0,
+                    "mapW": 0,
+                    "imageSize": {
+                        "zoomOffset": 0,
+                        "scale": 1,
+                        "imageW": 0,
+                        "imageH": 0
+                    },
+                    "center": false,
+                    "imageDataUri": "",
+                    "exporting": false,
+                    "processing": false,
+                    "error": false
+                },
+                "exportData": {
+                    "selectedDataset": "",
+                    "dataType": "CSV",
+                    "filtered": true
+                },
+                "exportMap": {
+                    "HTML": {
+                        "exportMapboxAccessToken": null,
+                        "userMapboxToken": "",
+                        "mode": "READ"
+                    },
+                    "JSON": {
+                        "hasData": true
+                    },
+                    "format": "HTML"
+                },
+                "mapControls": {
+                    "visibleLayers": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    },
+                    "mapLegend": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    },
+                    "toggle3d": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    },
+                    "splitMap": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    },
+                    "mapDraw": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    },
+                    "mapLocale": {
+                        "show": true,
+                        "active": false,
+                        "activeMapIndex": 0
+                    }
+                },
+                "notifications": [],
+                "loadFiles": {
+                    "fileLoading": false
+                },
+                "locale": "en",
+                "initialState": {}
+            },
+            "providerState": {
+                "isProviderLoading": false,
+                "isCloudMapLoading": false,
+                "providerError": null,
+                "currentProvider": null,
+                "successInfo": {},
+                "mapSaved": null,
+                "visualizations": [],
+                "initialState": {}
+            }
+        }
+    }
+}

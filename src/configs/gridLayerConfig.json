@@ -1,0 +1,196 @@
+{
+    "version": "v1",
+    "config": {
+        "visState": {
+            "filters": [],
+            "layers": [
+                {
+                    "id": "04xkfg",
+                    "type": "grid",
+                    "config": {
+                        "dataId": "mirpur_places_data",
+                        "label": "Grid",
+                        "color": [
+                            255,
+                            203,
+                            153
+                        ],
+                        "columns": {
+                            "lat": "latitude",
+                            "lng": "longitude"
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "opacity": 0.8,
+                            "worldUnitSize": 0.1,
+                            "colorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "coverage": 1,
+                            "sizeRange": [
+                                0,
+                                500
+                            ],
+                            "percentile": [
+                                0,
+                                100
+                            ],
+                            "elevationPercentile": [
+                                0,
+                                100
+                            ],
+                            "elevationScale": 2,
+                            "colorAggregation": "mode",
+                            "sizeAggregation": "count",
+                            "enable3d": true
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": {
+                            "name": "pType",
+                            "type": "string"
+                        },
+                        "colorScale": "ordinal",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                }
+            ],
+            "interactionConfig": {
+                "tooltip": {
+                    "fieldsToShow": {
+                        "mirpur_places_data": [
+                            {
+                                "name": "place_name",
+                                "format": null
+                            },
+                            {
+                                "name": "business_name",
+                                "format": null
+                            },
+                            {
+                                "name": "Address",
+                                "format": null
+                            },
+                            {
+                                "name": "pType",
+                                "format": null
+                            },
+                            {
+                                "name": "subType",
+                                "format": null
+                            },
+                            {
+                                "name": "latitude",
+                                "format": null
+                            },
+                            {
+                                "name": "longitude",
+                                "format": null
+                            },
+                            {
+                                "name": "postCode",
+                                "format": null
+                            },
+                            {
+                                "name": "area",
+                                "format": null
+                            },
+                            {
+                                "name": "thana",
+                                "format": null
+                            },
+                            {
+                                "name": "district",
+                                "format": null
+                            },
+                            {
+                                "name": "created_at",
+                                "format": null
+                            },
+                            {
+                                "name": "updated_at",
+                                "format": null
+                            }
+                        ]
+                    },
+                    "compareMode": false,
+                    "compareType": "absolute",
+                    "enabled": true
+                },
+                "brush": {
+                    "size": 0.5,
+                    "enabled": false
+                },
+                "geocoder": {
+                    "enabled": false
+                },
+                "coordinate": {
+                    "enabled": false
+                }
+            },
+            "layerBlending": "normal",
+            "splitMaps": [],
+            "animationConfig": {
+                "currentTime": null,
+                "speed": 1
+            }
+        },
+        "mapState": {
+            "bearing": 35.0688140556369,
+            "dragRotate": true,
+            "latitude": 23.808193668906082,
+            "longitude": 90.36612406699685,
+            "pitch": 51.85486188572577,
+            "zoom": 14.355823249249141,
+            "isSplit": false
+        },
+        "mapStyle": {
+            "styleType": "dark",
+            "topLayerGroups": {},
+            "visibleLayerGroups": {
+                "label": true,
+                "road": true,
+                "border": true,
+                "building": true,
+                "water": true,
+                "land": true,
+                "3d building": false
+            },
+            "threeDBuildingColor": [
+                9.665468314072013,
+                17.18305478057247,
+                31.1442867897876
+            ],
+            "mapStyles": {}
+        }
+    }
+}
