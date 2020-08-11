@@ -1,0 +1,193 @@
+{
+    "version": "v1",
+    "config": {
+        "visState": {
+            "filters": [
+                {
+                    "dataId": [
+                        "ward_area_data"
+                    ],
+                    "id": "o9torxtnd",
+                    "name": [
+                        "ward_number"
+                    ],
+                    "type": "range",
+                    "value": [
+                        19,
+                        19
+                    ],
+                    "enlarged": false,
+                    "plotType": "histogram",
+                    "yAxis": null
+                }
+            ],
+            "layers": [
+                {
+                    "id": "19kvfg9",
+                    "type": "geojson",
+                    "config": {
+                        "dataId": "ward_area_data",
+                        "label": "Ward Area Polygon",
+                        "color": [
+                            255,
+                            203,
+                            153
+                        ],
+                        "columns": {
+                            "geojson": "ward_area"
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "opacity": 0.5,
+                            "strokeOpacity": 0.5,
+                            "thickness": 1,
+                            "strokeColor": [
+                                221,
+                                212,
+                                205
+                            ],
+                            "colorRange": {
+                                "name": "Global Warming 4",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#831A3D",
+                                    "#E3611C",
+                                    "#FFC300"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radius": 10,
+                            "sizeRange": [
+                                0,
+                                10
+                            ],
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "heightRange": [
+                                0,
+                                500
+                            ],
+                            "elevationScale": 5,
+                            "stroked": true,
+                            "filled": true,
+                            "enable3d": false,
+                            "wireframe": false
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": {
+                            "name": "ward_number",
+                            "type": "integer"
+                        },
+                        "colorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "heightField": null,
+                        "heightScale": "linear",
+                        "radiusField": null,
+                        "radiusScale": "linear"
+                    }
+                }
+            ],
+            "interactionConfig": {
+                "tooltip": {
+                    "fieldsToShow": {
+                        "ward_area_data": [
+                            {
+                                "name": "ward_number",
+                                "format": null
+                            },
+                            {
+                                "name": "zone_id",
+                                "format": null
+                            }
+                        ]
+                    },
+                    "compareMode": false,
+                    "compareType": "absolute",
+                    "enabled": true
+                },
+                "brush": {
+                    "size": 0.5,
+                    "enabled": false
+                },
+                "geocoder": {
+                    "enabled": false
+                },
+                "coordinate": {
+                    "enabled": false
+                }
+            },
+            "layerBlending": "normal",
+            "splitMaps": [],
+            "animationConfig": {
+                "currentTime": null,
+                "speed": 1
+            }
+        },
+        "mapState": {
+            "bearing": 0,
+            "dragRotate": false,
+            "latitude": 23.78896206455604,
+            "longitude": 90.40990796276249,
+            "pitch": 0,
+            "zoom": 12.759672619963176,
+            "isSplit": false
+        },
+        "mapStyle": {
+            "styleType": "dark",
+            "topLayerGroups": {},
+            "visibleLayerGroups": {
+                "label": true,
+                "road": true,
+                "border": true,
+                "building": true,
+                "water": true,
+                "land": true,
+                "3d building": false
+            },
+            "threeDBuildingColor": [
+                9.665468314072013,
+                17.18305478057247,
+                31.1442867897876
+            ],
+            "mapStyles": {}
+        }
+    }
+}
