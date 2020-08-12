@@ -1,0 +1,37 @@
+*** Components ***
+------------------
+--- Custom Kepler.gl Components added in src/components/KeplerGl.js
+--- Custom Dropdown Menu in src/components/DropdownMenu.js
+--- Styles added in src/components/css/
+--- Custom Side Panel Components in src/components/
+
+*** Data and Configs ***
+------------------------
+--- Custom Configs in src/components/configs/
+--- Datasets (both CSV and JS export) in src/data/
+--- Separate configs made for each Dropdown Menu
+
+*** Redux Store ***
+-------------------
+--- Redux Store and Actions in src/store/
+--- Map Window Real Time Resize handled in src/App.js
+--- Store Connected in src/index.js
+
+*** Tweaks Needed***
+--------------------
+--- 'updateMap()' was needed in Actions to reset the Map zoom per requirement. Zoom set in configs files didn't work properly.
+--- Called 'addDataToMap()' on each Dropdown Select
+--- Custom colors needed to each filter configs layer
+
+*** Actions ***
+--- Source src/store/actions/dataActions.js
+--- 'loadDataToMap()' functions loads initial Data on Component Mount
+--- 'filterDataByWardNo(wardNo)' loads filtered data by Ward No on Map state change. Ward No is added to KeplerGlMap State.
+--- KeplerGlMap State changes if different Dropdown Selected using 'displayFilteredByWardNo(wardNo)' passed down to DropdownMenu as props.
+
+*** Issues ***
+--- kepler.gl actions are complicated to implement
+--- actions parameters are not well defined
+--- Filter adds the last layer color as default color(fixed).
+--- Currently loads data from start on each Dropdown Select.
+--- Adding new Filters and Layers by using built-in actions needed fix.
