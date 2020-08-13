@@ -2,6 +2,7 @@
 ------------------
 --- Custom Kepler.gl Components added in src/components/KeplerGl.js
 --- Custom Dropdown Menu in src/components/DropdownMenu.js
+--- Custom Checkbox Menu in src/components/CheckboxMenu.js
 --- Styles added in src/components/css/
 --- Custom Side Panel Components in src/components/
 
@@ -9,7 +10,7 @@
 ------------------------
 --- Custom Configs in src/components/configs/
 --- Datasets (both CSV and JS export) in src/data/
---- Separate configs made for each Dropdown Menu
+--- Template config made for filtered and unfiltered cases.
 
 *** Redux Store ***
 -------------------
@@ -25,13 +26,21 @@
 
 *** Actions ***
 --- Source src/store/actions/dataActions.js
---- 'loadDataToMap()' functions loads initial Data on Component Mount
---- 'filterDataByWardNo(wardNo)' loads filtered data by Ward No on Map state change. Ward No is added to KeplerGlMap State.
---- KeplerGlMap State changes if different Dropdown Selected using 'displayFilteredByWardNo(wardNo)' passed down to DropdownMenu as props.
+--- 'loadDataToMap()' functions loads initial Data on Component Mount.
 
 *** Issues ***
 --- kepler.gl actions are complicated to implement
 --- actions parameters are not well defined
 --- Filter adds the last layer color as default color(fixed).
 --- Currently loads data from start on each Dropdown Select.
---- Adding new Filters and Layers by using built-in actions needed fix.
+--- Adding new Filters and Layers by using built-in actions needs fix.
+
+*** Changelog ***
+-----------------
+--- Added Checkbox Menu for Layer Selection
+--- Added Checkbox functionality with 'toggleLayerVisibility(layerIndex, checked)' action.
+--- Added Filter functionality with 'filterDataByWardNo(wardNo, pointChecked, polygonChecked)' action.
+--- Added 'setLayerVisibility(config, layerIndex, visibility)' utility function.
+--- Added 'setFilterValue(config, wardNo)' utility function.
+--- Added 'ward_number' column into Places data programmatically for testing purpose. Need 'ward_number' column in Places data.
+
