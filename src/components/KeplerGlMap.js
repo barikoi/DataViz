@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadDataToMap, filterDataByWardNo } from '../store/actions/dataActions';
+import { loadDataToMap, filterDataByWardNo, toggleLayerVisibility } from '../store/actions/dataActions';
 
 // Customized kepler.gl Component
 import KeplerGl from './KeplerGl';
@@ -10,7 +10,9 @@ const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
 class KeplerGlMap extends React.Component {
     state = {
-        wardNo: 0
+        wardNo: 0,
+        pointChecked: false,
+        polygonChecked: true
     }
 
     componentDidMount() {
@@ -19,24 +21,47 @@ class KeplerGlMap extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.wardNo !== prevState.wardNo) {
-            // Filter Data by wardNo
-            this.props.dispatch(filterDataByWardNo(this.state.wardNo));
+        let { wardNo, pointChecked, polygonChecked } = this.state;
+        if(wardNo !== prevState.wardNo) {
+            // Filter Data by wardNo And set to current layer visibility
+            this.props.dispatch(filterDataByWardNo(wardNo, pointChecked, polygonChecked));
+        }
+        if(pointChecked !== prevState.pointChecked) {
+            // Toggle Point Layer Visibility
+            this.props.dispatch(toggleLayerVisibility(0, pointChecked));
+        }
+        if(polygonChecked !== prevState.polygonChecked) {
+            // Toggle Polygon Layer Visibility
+            this.props.dispatch(toggleLayerVisibility(1, polygonChecked));
         }
     }
 
-    displayFilteredByWardNo = wardNo => {
+    setWardNo = wardNo => {
         this.setState({
             wardNo
         });
     }
 
+
+
+    handleCheckboxChange = (checkboxName) => {
+        this.setState({
+            [checkboxName]: !this.state[checkboxName]
+        });
+    }
+
     render() {
         let { width, height } = this.props;
+        let { pointChecked, polygonChecked } = this.state;
 
         return (
             <div className='map-container'>
-                <KeplerSidePanel displayFilteredByWardNo={ this.displayFilteredByWardNo } />
+                <KeplerSidePanel
+                    setWardNo={ this.setWardNo }
+                    handleCheckboxChange={ this.handleCheckboxChange }
+                    pointChecked={ pointChecked }
+                    polygonChecked={ polygonChecked }
+                />
                 <KeplerGl
                     id='map'
                     mapboxApiAccessToken={ MAPBOX_API_ACCESS_TOKEN }

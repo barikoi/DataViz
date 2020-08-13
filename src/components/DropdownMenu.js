@@ -48,7 +48,7 @@ class DropdownMenu extends React.Component {
         }
 
         // Filter Data by Selected Ward No
-        this.props.displayFilteredByWardNo(value);
+        this.props.setWardNo(value);
     };
 
     renderDataDropDown = (item, index) => {

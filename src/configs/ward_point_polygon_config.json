@@ -5,7 +5,98 @@
             "filters": [],
             "layers": [
                 {
-                    "id": "0nezpq9n",
+                    "id": "6zbwgj3",
+                    "type": "point",
+                    "config": {
+                        "dataId": "ward_point_data",
+                        "label": "Ward Place",
+                        "color": [
+                            218,
+                            112,
+                            191
+                        ],
+                        "columns": {
+                            "lat": "latitude",
+                            "lng": "longitude",
+                            "altitude": null
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "radius": 10,
+                            "fixedRadius": false,
+                            "opacity": 0.5,
+                            "outline": false,
+                            "thickness": 2,
+                            "strokeColor": null,
+                            "colorRange": {
+                                "name": "ColorBrewer Paired-10",
+                                "type": "qualitative",
+                                "category": "ColorBrewer",
+                                "colors": [
+                                    "#a6cee3",
+                                    "#1f78b4",
+                                    "#b2df8a",
+                                    "#33a02c",
+                                    "#fb9a99",
+                                    "#e31a1c",
+                                    "#fdbf6f",
+                                    "#ff7f00",
+                                    "#cab2d6",
+                                    "#6a3d9a"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "filled": true
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": {
+                            "name": "pType",
+                            "type": "string"
+                        },
+                        "colorScale": "ordinal",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                },
+                {
+                    "id": "o7ynvrx",
                     "type": "geojson",
                     "config": {
                         "dataId": "ward_area_data",
@@ -20,13 +111,13 @@
                         },
                         "isVisible": true,
                         "visConfig": {
-                            "opacity": 0.5,
+                            "opacity": 0.3,
                             "strokeOpacity": 0.5,
                             "thickness": 1,
                             "strokeColor": [
-                                214,
-                                214,
-                                213
+                                229,
+                                229,
+                                228
                             ],
                             "colorRange": {
                                 "name": "Global Warming 4",
@@ -119,6 +210,52 @@
                                 "name": "zone_id",
                                 "format": null
                             }
+                        ],
+                        "ward_point_data": [
+                            {
+                                "name": "place_name",
+                                "format": null
+                            },
+                            {
+                                "name": "business_name",
+                                "format": null
+                            },
+                            {
+                                "name": "Address",
+                                "format": null
+                            },
+                            {
+                                "name": "latitude",
+                                "format": null
+                            },
+                            {
+                                "name": "longitude",
+                                "format": null
+                            },
+                            {
+                                "name": "pType",
+                                "format": null
+                            },
+                            {
+                                "name": "subType",
+                                "format": null
+                            },
+                            {
+                                "name": "area",
+                                "format": null
+                            },
+                            {
+                                "name": "thana",
+                                "format": null
+                            },
+                            {
+                                "name": "postCode",
+                                "format": null
+                            },
+                            {
+                                "name": "district",
+                                "format": null
+                            }
                         ]
                     },
                     "compareMode": false,
@@ -146,10 +283,10 @@
         "mapState": {
             "bearing": 0,
             "dragRotate": false,
-            "latitude": 23.79032550014016,
-            "longitude": 90.40148782894586,
+            "latitude": 23.821474331343428,
+            "longitude": 90.34787566728734,
             "pitch": 0,
-            "zoom": 12.759672619963176,
+            "zoom": 12.519345239926352,
             "isSplit": false
         },
         "mapStyle": {
