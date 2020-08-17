@@ -1,8 +1,14 @@
+*** Environment Variables ***
+-----------------------------
+process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN
+process.env.REACT_APP_BASE_API_URL
+
 *** Components ***
 ------------------
 --- Custom Kepler.gl Components added in src/components/KeplerGl.js
 --- Custom Dropdown Menu in src/components/DropdownMenu.js
 --- Custom Checkbox Menu in src/components/CheckboxMenu.js
+--- Custom Spinner in src/components/Spinner.js
 --- Styles added in src/components/css/
 --- Custom Side Panel Components in src/components/
 
@@ -27,6 +33,8 @@
 *** Actions ***
 --- Source src/store/actions/dataActions.js
 --- 'loadDataToMap()' functions loads initial Data on Component Mount.
+--- 'toggleLayerVisibility()' toggles given layer visibility on Checkbox Change
+--- 'filterDataByWardNo()' filters data by given Ward Number on Dropdown Change
 
 *** Issues ***
 --- kepler.gl actions are complicated to implement
@@ -34,6 +42,9 @@
 --- Filter adds the last layer color as default color(fixed).
 --- Currently loads data from start on each Dropdown Select.
 --- Adding new Filters and Layers by using built-in actions needs fix.
+--- Data fetch is slow.
+--- Legend Color types need fix
+--- Legend 'pType' Spelling and Multi-pType issues.
 
 *** Changelog ***
 -----------------
@@ -42,5 +53,6 @@
 --- Added Filter functionality with 'filterDataByWardNo(wardNo, pointChecked, polygonChecked)' action.
 --- Added 'setLayerVisibility(config, layerIndex, visibility)' utility function.
 --- Added 'setFilterValue(config, wardNo)' utility function.
---- Added 'ward_number' column into Places data programmatically for testing purpose. Need 'ward_number' column in Places data.
-
+--- Added Custom Spinner Component for data loading time
+--- Added new 'app' Reducer to handle data loading Spinner functionality
+--- Added 'fetchAPIData()' utility function to fetch both Polygon and Point data simultaneously

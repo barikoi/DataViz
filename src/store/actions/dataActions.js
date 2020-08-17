@@ -1,12 +1,7 @@
 import { wrapTo, addDataToMap, updateMap, layerConfigChange } from 'kepler.gl/actions';
-import { processCsvData } from 'kepler.gl/processors';
-import { setLayerVisibility, setFilterValue } from './actionsUtils';
-
-//////////////////
-// Import Data //
-//////////////////
-import polygonCsvWardData from '../../data/wards_area_data_6_to_8.csv.js';
-import pointCsvWardData from '../../data/demo_places_data.csv.js';
+import { processRowObject, processGeojson } from 'kepler.gl/processors';
+import { setLayerVisibility, setFilterValue, fetchAPIData } from './actionsUtils';
+import * as Types from './actionTypes';
 
 ////////////////////////
 // Import Map Configs //
@@ -14,24 +9,8 @@ import pointCsvWardData from '../../data/demo_places_data.csv.js';
 import wardMapConfig from '../../configs/ward_point_polygon_config.json';
 import wardFilteredConfig from '../../configs/ward_filtered_point_polygon_config.json';
 
-////////////////////////
-// Build POLYGON Data //
-////////////////////////
-const polygonDataId = 'ward_area_data';
-const polygonDataInfo = { id: polygonDataId, label: 'Ward Area Data' }
-const polygonData = processCsvData(polygonCsvWardData);
-const polygonDataset = { info: polygonDataInfo, data: polygonData };
-
-//////////////////////
-// Build POINT Data //
-//////////////////////
-const pointDataId = 'ward_point_data';
-const pointDataInfo = { id: pointDataId, label: 'Ward Point Data' }
-const pointData = processCsvData(pointCsvWardData);
-const pointDataset = { info: pointDataInfo, data: pointData };
-
-// Build Datasets
-const datasets = [ polygonDataset, pointDataset ];
+// Global Datasets
+const datasets = [];
 
 // Map Options
 const options = { readOnly: true, centerMap: true };
@@ -39,49 +18,52 @@ const options = { readOnly: true, centerMap: true };
 // Default Zoom
 const defaultZoom = 12.759672619963176;
 
-// ** DEBUG DATA ** //
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
-pointDataset.data.fields.push({
-    analyzerType: 'INT',
-    format: '',
-    name: 'ward_number',
-    tableFieldIndex: 30,
-    type: 'integer'
-});
-pointDataset.data.rows.forEach(row => {
-    row.push(getRndInteger(6, 8));
-});
-let count6 = 0, count7 = 0, count8 = 0;
-pointDataset.data.rows.forEach(row => {
-    if(row[row.length-1] === 6) {
-        count6++;
-    } else if(row[row.length-1] === 7) {
-        count7++;
-    } else if(row[row.length-1] === 8) {
-        count8++;
-    }
-});
-// ** END DEBUG DATA ** //
-
 //////////////////////////////////////////
 // Load Data To Map with Default Config //
 //////////////////////////////////////////
 export function loadDataToMap() {
     return (dispatch) => {
-        // Get Map Config
-        const config = wardMapConfig;
+        // Fetch API Data
+        fetchAPIData()
+            .then(results => {
+                // Build Polygon Dataset
+                const polygonDataId = 'ward_area_data';
+                const polygonDataInfo = { id: polygonDataId, label: 'Ward Area Polygon' };
+                const polygonData = processGeojson(results.polygonData);
+                const polygonDataset = { info: polygonDataInfo, data: polygonData };
 
-        // Set Point Layer Visibility to false
-        setLayerVisibility(config, 0, false);
+                // Build Point Dataset
+                const pointDataId = 'ward_point_data';
+                const pointDataInfo = { id: pointDataId, label: 'Ward Point Data' }
+                const pointData = processRowObject(results.pointData);
+                const pointDataset = { info: pointDataInfo, data: pointData };
 
-        // Add Data To Map
-        dispatch( wrapTo('map', addDataToMap({ datasets, options, config })) );
+                // Build Datasets for Map
+                datasets.push(polygonDataset);
+                datasets.push(pointDataset);
 
-        // Dispatch update Map (for setting zoom)
-        dispatch( wrapTo('map', updateMap({ zoom: defaultZoom })) );
+                return datasets;
+            })
+            .then(datasets => {
+                // Set Map Config
+                const config = wardMapConfig;
+
+                // Set Point Layer Visibility to false
+                setLayerVisibility(config, 0, false);
+
+                // Dispatch Add Data To Map Action
+                dispatch( wrapTo('map', addDataToMap({ datasets, options, config })) );
+
+                // Dispatch update Map (for setting zoom to current zoom)
+                dispatch( wrapTo('map', updateMap({ zoom: defaultZoom })) );
+            })
+            .then(() => {
+                // Dispatch Data Loaded Action
+                dispatch({ type: Types.SET_IS_DATA_LOADED_TRUE });
+            })
+            .catch(err => {
+                console.error(err);
+            });
     };
 }
 

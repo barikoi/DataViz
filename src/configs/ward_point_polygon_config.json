@@ -107,7 +107,7 @@
                             153
                         ],
                         "columns": {
-                            "geojson": "ward_area"
+                            "geojson": "_geojson"
                         },
                         "isVisible": true,
                         "visConfig": {
@@ -205,10 +205,6 @@
                             {
                                 "name": "ward_number",
                                 "format": null
-                            },
-                            {
-                                "name": "zone_id",
-                                "format": null
                             }
                         ],
                         "ward_point_data": [
@@ -222,14 +218,6 @@
                             },
                             {
                                 "name": "Address",
-                                "format": null
-                            },
-                            {
-                                "name": "latitude",
-                                "format": null
-                            },
-                            {
-                                "name": "longitude",
                                 "format": null
                             },
                             {

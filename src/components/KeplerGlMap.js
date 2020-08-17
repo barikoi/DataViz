@@ -17,7 +17,7 @@ class KeplerGlMap extends React.Component {
 
     componentDidMount() {
         // Initial Data Load
-        this.props.dispatch(loadDataToMap());
+        this.props.dispatch(loadDataToMap())
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -53,10 +53,12 @@ class KeplerGlMap extends React.Component {
     render() {
         let { width, height } = this.props;
         let { pointChecked, polygonChecked } = this.state;
+        let { isDataLoaded } = this.props.app;
 
         return (
             <div className='map-container'>
                 <KeplerSidePanel
+                    isDataLoaded={ isDataLoaded }
                     setWardNo={ this.setWardNo }
                     handleCheckboxChange={ this.handleCheckboxChange }
                     pointChecked={ pointChecked }

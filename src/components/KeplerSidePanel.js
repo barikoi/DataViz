@@ -22,13 +22,14 @@ class KeplerSidePanel extends React.Component {
 
     render() {
         let { isVisible } = this.state;
-        let { setWardNo, handleCheckboxChange, pointChecked, polygonChecked } = this.props;
+        let { isDataLoaded, setWardNo, handleCheckboxChange, pointChecked, polygonChecked } = this.props;
 
         return (
             <div className={ isVisible ? 'side-panel-container' : 'side-panel-container hidden' }>
                 <div className='side-panel'>
                     <SidePanelHeader />
                     <SidePanelBody
+                        isDataLoaded={ isDataLoaded }
                         setWardNo={ setWardNo }
                         handleCheckboxChange={ handleCheckboxChange }
                         pointChecked={ pointChecked }

@@ -13,8 +13,8 @@
                     ],
                     "type": "range",
                     "value": [
-                        6,
-                        8
+                        18,
+                        21
                     ],
                     "enlarged": false,
                     "plotType": "histogram",
@@ -30,8 +30,8 @@
                     ],
                     "type": "range",
                     "value": [
-                        6,
-                        8
+                        18,
+                        21
                     ],
                     "enlarged": false,
                     "plotType": "histogram",
@@ -142,7 +142,7 @@
                             153
                         ],
                         "columns": {
-                            "geojson": "ward_area"
+                            "geojson": "_geojson"
                         },
                         "isVisible": true,
                         "visConfig": {
@@ -160,6 +160,7 @@
                                 "category": "Uber",
                                 "colors": [
                                     "#5A1846",
+                                    "#831A3D",
                                     "#E3611C",
                                     "#FFC300"
                                 ]
@@ -239,10 +240,6 @@
                             {
                                 "name": "ward_number",
                                 "format": null
-                            },
-                            {
-                                "name": "zone_id",
-                                "format": null
                             }
                         ],
                         "ward_point_data": [
@@ -256,14 +253,6 @@
                             },
                             {
                                 "name": "Address",
-                                "format": null
-                            },
-                            {
-                                "name": "latitude",
-                                "format": null
-                            },
-                            {
-                                "name": "longitude",
                                 "format": null
                             },
                             {
