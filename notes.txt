@@ -1,0 +1,10 @@
+*** Environment Variables ***
+-----------------------------
+process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN
+process.env.REACT_APP_BASE_API_URL
+
+*** ChangeLog ***
+-----------------
+--- 'loadDataToMap()' action loads api data to map on initial rendering.
+--- 'setThisLayerVisibleOnly()' sets only passed layer visible and others hidden.
+--- 'fetchAPIData()' utility function fetches data from both API simultaneously.
