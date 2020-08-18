@@ -1,0 +1,120 @@
+.side-panel-container {
+	z-index: 100;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	width: 25%;
+	height: calc(100% - 25px);
+	min-width: 230px;
+	color: #dadada;
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+}
+
+/* If Side Panel Hidden */
+.side-panel-container.hidden .side-panel {
+	display: none;
+}
+
+.side-panel-container .side-panel {
+	width: 100%;
+	background: #252525;
+	background: rgba(37,37,37,0.7);
+	border: 1px solid #252525;
+	border-radius: 3px; 
+	color: #dadada;
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+.side-panel-container .side-panel main {
+	flex: 1 0 auto;
+}
+
+.side-panel-container .side-panel header p {
+	text-align: center;
+	color: #6A7485;
+}
+
+.side-panel-container .side-panel footer, 
+.side-panel-container .side-panel header {
+	padding: 5px 10px;
+	background: #252525;
+	flex-shrink: 0;
+}
+
+.side-panel-container .side-panel h2 {
+	text-align: center;
+}
+
+.side-panel-container .side-panel header {
+	border-bottom: 1px solid #dadada;
+}
+
+.side-panel-container .side-panel footer {
+	font-size: 0.75em;
+	border-top: 1px solid #dadada;
+}
+
+.side-panel-container .side-panel main {
+	text-align: center;
+	align-items: center;
+	padding: 5px 10px;
+}
+
+.side-panel-container .side-panel .buttons {
+	padding-top: 10px;
+}
+
+.side-panel-container .side-panel button {
+	padding: 5px 10px;
+	margin: 2px;
+	background: #252525;
+	border: 1px solid #00939C;
+	color: #dadada;
+}
+
+.side-panel-container .side-panel button:hover {
+	background: #00939C;
+	color: #252525;
+}
+
+.side-panel-container .side-panel .active {
+	background: #5DBABF;
+	color: #252525;
+}
+
+.side-panel-container .side-panel .preloader {
+	margin: 5px auto;
+	border: 7px solid #6A7485;
+	border-top: 7px solid #5DBABF;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	animation: spin 2s linear infinite;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+.side-panel-container .toggle-view-btn button {
+	margin-left: 8px;
+	border: none;
+	width: 50px;
+	height: 25px;
+	background-color: #252525;
+	color: #dadada;
+	text-align: center;
+}
