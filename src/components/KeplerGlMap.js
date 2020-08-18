@@ -56,7 +56,7 @@ class KeplerGlMap extends React.Component {
         let { isDataLoaded } = this.props.app;
 
         return (
-            <div className='map-container'>
+            <div className='map-container' style={{ overflow: 'hidden' }}>
                 <KeplerSidePanel
                     isDataLoaded={ isDataLoaded }
                     setWardNo={ this.setWardNo }
