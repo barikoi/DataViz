@@ -1,0 +1,456 @@
+{
+    "version": "v1",
+    "config": {
+        "visState": {
+            "filters": [
+                {
+                    "dataId": [
+                        "birds_eye_point_data"
+                    ],
+                    "id": "6d7bzdd",
+                    "name": [
+                        "created_at"
+                    ],
+                    "type": "timeRange",
+                    "value": [],
+                    "enlarged": true,
+                    "plotType": "histogram",
+                    "yAxis": null
+                },
+                {
+                    "dataId": [
+                        "vault_point_data"
+                    ],
+                    "id": "6d7bzee",
+                    "name": [
+                        "created_at"
+                    ],
+                    "type": "timeRange",
+                    "value": [],
+                    "enlarged": false,
+                    "plotType": "histogram",
+                    "yAxis": null
+                },
+                {
+                    "dataId": [
+                        "birds_eye_point_data"
+                    ],
+                    "id": "9kk633nb",
+                    "name": [
+                        "pType"
+                    ],
+                    "type": "multiSelect",
+                    "value": [],
+                    "enlarged": false,
+                    "plotType": "histogram",
+                    "yAxis": null
+                },
+                {
+                    "dataId": [
+                        "vault_point_data"
+                    ],
+                    "id": "9kk633oc",
+                    "name": [
+                        "pType"
+                    ],
+                    "type": "multiSelect",
+                    "value": [],
+                    "enlarged": false,
+                    "plotType": "histogram",
+                    "yAxis": null
+                }
+            ],
+            "layers": [
+                {
+                    "id": "nq8wqfm",
+                    "type": "point",
+                    "config": {
+                        "dataId": "birds_eye_point_data",
+                        "label": "Bird's Eye Point Data",
+                        "color": [
+                            53,
+                            166,
+                            204
+                        ],
+                        "columns": {
+                            "lat": "latitude",
+                            "lng": "longitude",
+                            "altitude": null
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "radius": 15,
+                            "fixedRadius": false,
+                            "opacity": 0.5,
+                            "outline": false,
+                            "thickness": 2,
+                            "strokeColor": null,
+                            "colorRange": {
+                                "name": "Custom Palette",
+                                "type": "custom",
+                                "category": "Custom",
+                                "colors": [
+                                    "#aebdff",
+                                    "#82c82b",
+                                    "#004dcc",
+                                    "#87b600",
+                                    "#8675ff",
+                                    "#01b143",
+                                    "#b329b0",
+                                    "#72dc7b",
+                                    "#e466ea",
+                                    "#01bd74",
+                                    "#f82b58",
+                                    "#00d3e8",
+                                    "#e21e3a",
+                                    "#02c0ba",
+                                    "#db4e0d",
+                                    "#51b7ff",
+                                    "#f9b10e",
+                                    "#0062b5",
+                                    "#d6c938",
+                                    "#e39eff",
+                                    "#568500",
+                                    "#ff4778",
+                                    "#006418",
+                                    "#cc0051",
+                                    "#008f6b",
+                                    "#ff5f41",
+                                    "#01877b",
+                                    "#dc7600",
+                                    "#753d79",
+                                    "#859a00",
+                                    "#ff9fd3",
+                                    "#00784b",
+                                    "#ff746e",
+                                    "#b7d077",
+                                    "#9f1e35",
+                                    "#ddc56c",
+                                    "#e9b5ec",
+                                    "#848100",
+                                    "#ff8b76",
+                                    "#4d5802",
+                                    "#9a2b09",
+                                    "#626900",
+                                    "#c6807a",
+                                    "#ffab48",
+                                    "#96584b",
+                                    "#f1bd7a",
+                                    "#924700",
+                                    "#ffa26f",
+                                    "#704b16",
+                                    "#a78a5a"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "filled": true
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": null,
+                        "colorScale": "quantile",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                },
+                {
+                    "id": "5sqhqj",
+                    "type": "point",
+                    "config": {
+                        "dataId": "vault_point_data",
+                        "label": "Vault Point Data",
+                        "color": [
+                            207,
+                            220,
+                            79
+                        ],
+                        "columns": {
+                            "lat": "latitude",
+                            "lng": "longitude",
+                            "altitude": null
+                        },
+                        "isVisible": true,
+                        "visConfig": {
+                            "radius": 15,
+                            "fixedRadius": false,
+                            "opacity": 0.5,
+                            "outline": false,
+                            "thickness": 2,
+                            "strokeColor": null,
+                            "colorRange": {
+                                "name": "Custom Palette",
+                                "type": "custom",
+                                "category": "Custom",
+                                "colors": [
+                                    "#aebdff",
+                                    "#82c82b",
+                                    "#004dcc",
+                                    "#87b600",
+                                    "#8675ff",
+                                    "#01b143",
+                                    "#b329b0",
+                                    "#72dc7b",
+                                    "#e466ea",
+                                    "#01bd74",
+                                    "#f82b58",
+                                    "#00d3e8",
+                                    "#e21e3a",
+                                    "#02c0ba",
+                                    "#db4e0d",
+                                    "#51b7ff",
+                                    "#f9b10e",
+                                    "#0062b5",
+                                    "#d6c938",
+                                    "#e39eff",
+                                    "#568500",
+                                    "#ff4778",
+                                    "#006418",
+                                    "#cc0051",
+                                    "#008f6b",
+                                    "#ff5f41",
+                                    "#01877b",
+                                    "#dc7600",
+                                    "#753d79",
+                                    "#859a00",
+                                    "#ff9fd3",
+                                    "#00784b",
+                                    "#ff746e",
+                                    "#b7d077",
+                                    "#9f1e35",
+                                    "#ddc56c",
+                                    "#e9b5ec",
+                                    "#848100",
+                                    "#ff8b76",
+                                    "#4d5802",
+                                    "#9a2b09",
+                                    "#626900",
+                                    "#c6807a",
+                                    "#ffab48",
+                                    "#96584b",
+                                    "#f1bd7a",
+                                    "#924700",
+                                    "#ffa26f",
+                                    "#704b16",
+                                    "#a78a5a"
+                                ]
+                            },
+                            "strokeColorRange": {
+                                "name": "Global Warming",
+                                "type": "sequential",
+                                "category": "Uber",
+                                "colors": [
+                                    "#5A1846",
+                                    "#900C3F",
+                                    "#C70039",
+                                    "#E3611C",
+                                    "#F1920E",
+                                    "#FFC300"
+                                ]
+                            },
+                            "radiusRange": [
+                                0,
+                                50
+                            ],
+                            "filled": true
+                        },
+                        "hidden": false,
+                        "textLabel": [
+                            {
+                                "field": null,
+                                "color": [
+                                    255,
+                                    255,
+                                    255
+                                ],
+                                "size": 18,
+                                "offset": [
+                                    0,
+                                    0
+                                ],
+                                "anchor": "start",
+                                "alignment": "center"
+                            }
+                        ]
+                    },
+                    "visualChannels": {
+                        "colorField": null,
+                        "colorScale": "quantile",
+                        "strokeColorField": null,
+                        "strokeColorScale": "quantile",
+                        "sizeField": null,
+                        "sizeScale": "linear"
+                    }
+                }
+            ],
+            "interactionConfig": {
+                "tooltip": {
+                    "fieldsToShow": {
+                        "birds_eye_point_data": [
+                            {
+                                "name": "Address",
+                                "format": null
+                            },
+                            {
+                                "name": "area",
+                                "format": null
+                            },
+                            {
+                                "name": "pType",
+                                "format": null
+                            },
+                            {
+                                "name": "subType",
+                                "format": null
+                            },
+                            {
+                                "name": "latitude",
+                                "format": null
+                            },
+                            {
+                                "name": "longitude",
+                                "format": null
+                            },
+                            {
+                                "name": "created_at",
+                                "format": null
+                            },
+                            {
+                                "name": "user_id",
+                                "format": null
+                            }
+                        ],
+                        "vault_point_data": [
+                            {
+                                "name": "Address",
+                                "format": null
+                            },
+                            {
+                                "name": "area",
+                                "format": null
+                            },
+                            {
+                                "name": "pType",
+                                "format": null
+                            },
+                            {
+                                "name": "subType",
+                                "format": null
+                            },
+                            {
+                                "name": "city",
+                                "format": null
+                            },
+                            {
+                                "name": "postCode",
+                                "format": null
+                            },
+                            {
+                                "name": "latitude",
+                                "format": null
+                            },
+                            {
+                                "name": "longitude",
+                                "format": null
+                            },
+                            {
+                                "name": "created_at",
+                                "format": null
+                            },
+                            {
+                                "name": "updated_at",
+                                "format": null
+                            },
+                            {
+                                "name": "user_id",
+                                "format": null
+                            }
+                        ]
+                    },
+                    "compareMode": false,
+                    "compareType": "absolute",
+                    "enabled": true
+                },
+                "brush": {
+                    "size": 0.5,
+                    "enabled": false
+                },
+                "geocoder": {
+                    "enabled": false
+                },
+                "coordinate": {
+                    "enabled": false
+                }
+            },
+            "layerBlending": "normal",
+            "splitMaps": [],
+            "animationConfig": {
+                "currentTime": null,
+                "speed": 1
+            }
+        },
+        "mapState": {
+            "bearing": 0,
+            "dragRotate": false,
+            "latitude": 23.86012585824617,
+            "longitude": 88.54398598131883,
+            "pitch": 0,
+            "zoom": 6.519345239926352,
+            "isSplit": false
+        },
+        "mapStyle": {
+            "styleType": "dark",
+            "topLayerGroups": {},
+            "visibleLayerGroups": {
+                "label": true,
+                "road": true,
+                "border": true,
+                "building": true,
+                "water": true,
+                "land": true,
+                "3d building": false
+            },
+            "threeDBuildingColor": [
+                9.665468314072013,
+                17.18305478057247,
+                31.1442867897876
+            ],
+            "mapStyles": {}
+        }
+    }
+}
