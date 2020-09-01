@@ -18,7 +18,7 @@ const initialState = {
                 { id: 1, tableIndex: 4, type: 'string', label: 'Place Type', tableField: 'pType' },
                 { id: 2, tableIndex: 5, type: 'string', label: 'Sub Type', tableField: 'subType' },
                 { id: 3, tableIndex: 3, type: 'string', label: 'Area', tableField: 'area' },
-                { id: 4, tableIndex: 9, type: 'integer', label: 'User ID', tableField: 'user_id' }
+                { id: 4, tableIndex: 9, type: 'string', label: 'User ID', tableField: 'user_id' }
             ],
             vault: [
                 { id: 0, tableIndex: -1, type: '', label: 'None', tableField: '' },
@@ -26,7 +26,7 @@ const initialState = {
                 { id: 2, tableIndex: 8, type: 'string', label: 'Sub Type', tableField: 'subType' },
                 { id: 3, tableIndex: 6, type: 'string', label: 'Area', tableField: 'area' },
                 { id: 4, tableIndex: 5, type: 'string', label: 'City', tableField: 'city' },
-                { id: 5, tableIndex: 11, type: 'integer', label: 'User ID', tableField: 'user_id' }
+                { id: 5, tableIndex: 11, type: 'string', label: 'User ID', tableField: 'user_id' }
             ]
         },
         selectedField: {

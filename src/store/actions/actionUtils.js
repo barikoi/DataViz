@@ -32,6 +32,10 @@ export function fetchDataFromAPI() {
         axios.get(VAULT_DATA_API_URL)
     ])
     .then(axios.spread((result1, result2) => {
+        // Parse user_id to string
+        result1.data.Message = parseUserIdToString(result1.data.Message);
+        result2.data.Data = parseUserIdToString(result2.data.Data);
+
         return {
             birdsEyeData: result1.data.Message || {},
             vaultData: result2.data.Data || {}
@@ -40,4 +44,13 @@ export function fetchDataFromAPI() {
     .catch(err => {
         console.error(err);
     });
+}
+
+// Parse user_id column to strings
+function parseUserIdToString(data) {
+    data.forEach(item => {
+        item.user_id = 'U-' + item.user_id;
+    });
+
+    return data;
 }

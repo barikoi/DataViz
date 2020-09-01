@@ -80,7 +80,7 @@ class DropdownMenu extends React.Component {
                 <button
                     className='dropdown-toggle'
                     type='button'
-                    onClick={ list.length > 0 && this.showDropdown }
+                    onClick={ list.length > 0 ? this.showDropdown : undefined }
                 >
                     { currentItem.label ? currentItem.label : 'None' }
                     <span className='caret'></span>
