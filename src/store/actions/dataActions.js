@@ -20,7 +20,6 @@ export function loadDataToMap() {
         // Fetch data from API
         fetchDataFromAPI()
             .then(results => {
-                console.log('Data', results);
                 // Build Birds Eye Dataset
                 const birdsEyeDataId = 'birds_eye_point_data';
                 const birdsEyeDataLabel = 'Bird\'s Eye Point Data';
