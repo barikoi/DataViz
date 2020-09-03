@@ -6,8 +6,9 @@ import CheckboxMenu from './CheckboxMenu';
 import Spinner from './Spinner';
 
 class SidePanelBody extends React.Component {
+
     render() {
-        let { isDataLoaded, topLayerIndex, timeFilter, toggleTimeFilter, toggleLayerOrder, handleDropdownChange, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList } = this.props;
+        let { isDataLoaded, topLayerIndex, timeFilter, toggleTimeFilter, toggleLayerOrder, handleDropdownChange, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList, openPolygonModal, editor } = this.props;
 
         return (
             <React.Fragment>
@@ -24,7 +25,6 @@ class SidePanelBody extends React.Component {
                                 <p>Layer</p>
                                 <DropdownMenu id={ 0 } key={ 0 } list={ layerDropdownList } handleDropdownChange={ handleDropdownChange }/>
                             </div>
-
                             
                             <div style={{ display: selectedLayer.id !== 2 ? 'block' : 'none' }}>
                                 <p style={{ margin: '0', marginTop: '15px' }}>Bird's Eye Layer</p>
@@ -37,8 +37,6 @@ class SidePanelBody extends React.Component {
                                 </div>
                             </div>
                             
-
-                            
                             <div style={{ display: selectedLayer.id !== 1 ? 'block' : 'none' }}>
                                 <p style={{ margin: '0', marginTop: '15px' }}>Vault Layer</p>
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
@@ -49,6 +47,17 @@ class SidePanelBody extends React.Component {
                                     <DropdownMenu id={ 4 } key={ 4 } list={ valueDropdownList.vault } handleDropdownChange={ handleDropdownChange }/>
                                 </div>
                             </div>
+
+                            {
+                                editor.selectedFeature && editor.features.length === 0 &&
+                                <div>
+                                    <button
+                                        className='polygon-modal'
+                                        type='button'
+                                        onClick={ openPolygonModal }
+                                    >Points In Polygon</button>
+                                </div>
+                            }
                             
                         </main>
                     ) :

@@ -22,7 +22,7 @@ class KeplerSidePanel extends React.Component {
 
     render() {
         let { isVisible } = this.state;
-        let { isDataLoaded, topLayerIndex, toggleLayerOrder, timeFilter, toggleTimeFilter, handleDropdownChange, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList } = this.props;
+        let { isDataLoaded, topLayerIndex, toggleLayerOrder, timeFilter, toggleTimeFilter, handleDropdownChange, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList, openPolygonModal, editor } = this.props;
 
         return (
             <div className={ isVisible ? 'side-panel-container' : 'side-panel-container hidden' }>
@@ -39,6 +39,8 @@ class KeplerSidePanel extends React.Component {
                         selectedLayer={ selectedLayer }
                         fieldDropdownList={ fieldDropdownList }
                         valueDropdownList={ valueDropdownList }
+                        openPolygonModal={ openPolygonModal }
+                        editor={ editor }
                     />
                     <SidePanelFooter />
                 </div>

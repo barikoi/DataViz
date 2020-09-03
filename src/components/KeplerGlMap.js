@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 // Import Components
 import KeplerGl from './KeplerGl';
 import KeplerSidePanel from './KeplerSidePanel';
+import PointsInPolygonModal from './PointsInPolygonModal';
+import Draggable from 'react-draggable';
 
 // Import Actions
 import { loadDataToMap } from '../store/actions/dataActions';
 import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
-import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue } from '../store/actions/dispatchActions';
+import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue, dispatchSetPolygonModal } from '../store/actions/dispatchActions';
 
 const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
@@ -159,9 +161,22 @@ class KeplerGlMap extends React.Component {
         }
     }
 
+    // Open Polygon Modal
+    openPolygonModal = () => {
+        this.props.dispatch( dispatchSetPolygonModal(true) );
+    }
+
+    // Close Polygon Modal
+    closePolygonModal = () => {
+        this.props.dispatch( dispatchSetPolygonModal(false) );
+    }
+
     render() {
         let { width, height } = this.props;
-        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList } = this.props.app.sidePanel;
+        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal} = this.props.app.sidePanel;
+        
+        // Get Layer Data
+        let { editor, layerData } = this.props.keplerGl.map ? this.props.keplerGl.map.visState : { editor: {}, layerData: {} };
 
         return (
             <div className='map-container' style={{ overflow: 'hidden' }}>
@@ -176,6 +191,8 @@ class KeplerGlMap extends React.Component {
                     selectedLayer={ selectedLayer }
                     fieldDropdownList={ fieldDropdownList }
                     valueDropdownList={ valueDropdownList }
+                    openPolygonModal={ this.openPolygonModal }
+                    editor={ editor }
                 />
 
                 <KeplerGl
@@ -184,6 +201,20 @@ class KeplerGlMap extends React.Component {
                     width={ width }
                     height={ height }
                 />
+
+                {
+                    polygonModal &&
+                    <Draggable>
+                        <div>
+                            <PointsInPolygonModal
+                                polygonModal={ polygonModal }
+                                closePolygonModal={ this.closePolygonModal }
+                                selectedLayer={ selectedLayer }
+                                layerData={ layerData }
+                            />
+                        </div>
+                    </Draggable>
+                }
             </div>
         );
     }

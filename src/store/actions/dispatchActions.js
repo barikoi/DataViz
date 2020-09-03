@@ -61,3 +61,11 @@ export function dispatchVaultSelectedFilterValue(selectedValue) {
         dispatch({ type: ActionTypes.SET_VAULT_SELECTED_FILTER_VALUE, payload: { selectedValue } });
     }
 }
+
+// Dispatch Set Is Polygon Modal
+export function dispatchSetPolygonModal(polygonModal) {
+    return (dispatch) => {
+        // Dispatch Set Is Polygon Modal Action
+        dispatch({ type: ActionTypes.SET_POLYGON_MODAL, payload: { polygonModal } });
+    }
+}

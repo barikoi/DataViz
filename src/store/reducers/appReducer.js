@@ -41,7 +41,12 @@ const initialState = {
             birdsEye: {},
             vault: {}
         },
-        colorFieldBy: { id: 0, tableField: '' }
+        colorFieldBy: { id: 0, tableField: '' },
+        polygonModal: false,
+        polygonPoints: {
+            birdsEye: [],
+            vault: []
+        }
     }
 };
 
@@ -159,6 +164,14 @@ export function appReducer(state=initialState, action) {
                 sidePanel: {
                     ...state.sidePanel,
                     colorFieldBy: action.payload.colorFieldBy
+                }
+            };
+        case ActionTypes.SET_POLYGON_MODAL:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    polygonModal: action.payload.polygonModal
                 }
             };
         default: return state;
