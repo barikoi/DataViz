@@ -339,19 +339,15 @@
                                 "format": null
                             },
                             {
-                                "name": "latitude",
-                                "format": null
-                            },
-                            {
-                                "name": "longitude",
-                                "format": null
-                            },
-                            {
-                                "name": "created_at",
+                                "name": "uCode",
                                 "format": null
                             },
                             {
                                 "name": "user_id",
+                                "format": null
+                            },
+                            {
+                                "name": "created_at",
                                 "format": null
                             }
                         ],
@@ -361,19 +357,11 @@
                                 "format": null
                             },
                             {
-                                "name": "area",
-                                "format": null
-                            },
-                            {
-                                "name": "pType",
-                                "format": null
-                            },
-                            {
-                                "name": "subType",
-                                "format": null
-                            },
-                            {
                                 "name": "city",
+                                "format": null
+                            },
+                            {
+                                "name": "area",
                                 "format": null
                             },
                             {
@@ -381,11 +369,19 @@
                                 "format": null
                             },
                             {
-                                "name": "latitude",
+                                "name": "subType",
                                 "format": null
                             },
                             {
-                                "name": "longitude",
+                                "name": "pType",
+                                "format": null
+                            },
+                            {
+                                "name": "uCode",
+                                "format": null
+                            },
+                            {
+                                "name": "user_id",
                                 "format": null
                             },
                             {
@@ -394,10 +390,6 @@
                             },
                             {
                                 "name": "updated_at",
-                                "format": null
-                            },
-                            {
-                                "name": "user_id",
                                 "format": null
                             }
                         ]

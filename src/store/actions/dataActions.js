@@ -27,6 +27,7 @@ export function loadDataToMap() {
                 const birdsEyeData = processRowObject(results.birdsEyeData);
                 const birdsEyeDataset = { info: birdsEyeDataInfo, data: birdsEyeData };
 
+
                 // Build Vault Dataset
                 const vaultDataId = 'vault_point_data';
                 const vaultDataLabel = 'Vault Point Data';
