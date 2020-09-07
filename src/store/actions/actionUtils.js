@@ -14,12 +14,14 @@ export function fetchDataFromAPI() {
 
     // Build API Date params
     const today = new Date();
-    const dateTill = today.toISOString().slice(0, 10);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate()+1);
+    const dateTill = tomorrow.toISOString().slice(0, 10);
     
     // Set month to 1 month ago and time to zero hours and so on
-    today.setMonth(today.getMonth()-1);
-    today.setHours(0, 0, 0, 0);
-    const dateFrom = today.toISOString().slice(0, 10);
+    tomorrow.setMonth(tomorrow.getMonth()-1);
+    tomorrow.setHours(0, 0, 0, 0);
+    const dateFrom = tomorrow.toISOString().slice(0, 10);
 
     // Birds Eye Data API returns data for current date only if no param passed
     const birdsEyeDataParams = { dateFrom, dateTill };
