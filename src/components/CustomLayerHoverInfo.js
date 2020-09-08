@@ -4,6 +4,7 @@ import './css/CustomLayerHoverInfoStyles.css';
 
 class CustomLayerHoverInfo extends React.Component {
     state = {
+        placeId: '',
         fields: [],
         values: []
     }
@@ -12,7 +13,26 @@ class CustomLayerHoverInfo extends React.Component {
         let { fields, fieldsToShow, data } = this.props;
         fieldsToShow = fieldsToShow.map(item => item.name);
         const values = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
-        this.setState({ fields: fieldsToShow, values });
+        this.setState({ placeId: data[0], fields: fieldsToShow, values });
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if(nextState.placeId !== this.state.placeId) {
+            return true;
+
+        } else {
+            if(nextProps.data[0] !== this.props.data[0]) {
+                let { fields, fieldsToShow, data } = nextProps;
+                fieldsToShow = fieldsToShow.map(item => item.name);
+                const values = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
+                this.setState({ placeId: data[0], fields: fieldsToShow, values });
+
+                return true;
+                
+            } else {
+                return false;
+            }
+        }
     }
 
     render() {

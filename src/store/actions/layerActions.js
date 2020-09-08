@@ -1,4 +1,4 @@
-import { wrapTo, reorderLayer, layerConfigChange, layerVisualChannelConfigChange } from 'kepler.gl/actions';
+import { wrapTo, reorderLayer, layerConfigChange, layerVisConfigChange, layerVisualChannelConfigChange } from 'kepler.gl/actions';
 import * as ActionTypes from './actionTypes';
 
 // Toggle Top Layer when both selected
@@ -108,6 +108,56 @@ export function handleColorFieldByChange(colorFieldBy) {
 
             // Dispatch Vis Config Change action
             dispatch( wrapTo('map', layerVisualChannelConfigChange(oldLayerObj, newConfig, 'color')) );
+        }
+    }
+}
+
+// Update Radius Size based on map zoom
+export function upadatePointRadiusWithMapZoom(zoom) {
+    return (dispatch, getState) => {
+        // Get Old layer
+        const { layers } = getState().keplerGl.map.visState;
+
+        if(zoom >= 14 && zoom < 15) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 12 })) );
+            });
+
+        } else if(zoom >= 15 && zoom < 16) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 7.3 })) );
+            });
+
+        } else if(zoom >= 16 && zoom < 17) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 3.7 })) );
+            });
+
+        } else if(zoom >= 17 && zoom < 18) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 2.3 })) );
+            });
+
+        } else if(zoom >= 18 && zoom < 19) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 1.1 })) );
+            });
+
+        } else if(zoom >= 19 && zoom < 20) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 0.8 })) );
+            });
+
+        } else if(zoom >= 20 && zoom < 24) {
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 0.4 })) );
+            });
+
+        } else {
+            // Reset
+            layers.forEach(item => {
+                dispatch( wrapTo('map', layerVisConfigChange(item, { radius: 15 })) );
+            });
         }
     }
 }

@@ -9,7 +9,7 @@ import Draggable from 'react-draggable';
 
 // Import Actions
 import { loadDataToMap } from '../store/actions/dataActions';
-import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange } from '../store/actions/layerActions';
+import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange, upadatePointRadiusWithMapZoom } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
 import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue, dispatchSetPolygonModal } from '../store/actions/dispatchActions';
 
@@ -24,6 +24,11 @@ class KeplerGlMap extends React.Component {
     componentDidUpdate(prevProps) {
         let prevSidePanel = prevProps.app.sidePanel;
         let currentSidePanel = this.props.app.sidePanel;
+
+        // If Map zoom changed Set Dynamic Point Radius
+        if(prevProps.keplerGl.map && prevProps.keplerGl.map.mapState.zoom !== this.props.keplerGl.map.mapState.zoom) {
+            this.props.dispatch( upadatePointRadiusWithMapZoom(this.props.keplerGl.map.mapState.zoom) );
+        }
 
         // If Top Layer Changed
         if(prevSidePanel.topLayerIndex !== currentSidePanel.topLayerIndex) {
