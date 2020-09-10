@@ -6,8 +6,10 @@ import KeplerGl from './KeplerGl';
 import KeplerSidePanel from './KeplerSidePanel';
 import PointsInPolygonModal from './PointsInPolygonModal';
 import Draggable from 'react-draggable';
+import UpdateModal from './modal/UpdateModal';
 
 // Import Actions
+import * as ActionTypes from '../store/actions/actionTypes';
 import { loadDataToMap } from '../store/actions/dataActions';
 import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange, upadatePointRadiusWithMapZoom } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
@@ -176,9 +178,18 @@ class KeplerGlMap extends React.Component {
         this.props.dispatch( dispatchSetPolygonModal(false) );
     }
 
+    // Update Modal
+    closeModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
+    }
+
+    handleModaDataSubmit = data => {
+        console.log('Update Modal Submitted Data', data);
+    }
+
     render() {
         let { width, height } = this.props;
-        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal} = this.props.app.sidePanel;
+        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, updateModalInputData} = this.props.app.sidePanel;
         
         // Get Layer Data
         let { editor, layerData } = this.props.keplerGl.map ? this.props.keplerGl.map.visState : { editor: {}, layerData: {} };
@@ -206,6 +217,15 @@ class KeplerGlMap extends React.Component {
                     width={ width }
                     height={ height }
                 />
+
+                {
+                    isUpdateModalOpen &&
+                    <UpdateModal
+                        closeModal={ this.closeModal }
+                        handleModaData={ this.handleModaDataSubmit }
+                        updateModalInputData={ updateModalInputData }
+                    />
+                }
 
                 {
                     polygonModal &&

@@ -1,19 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import './css/CustomLayerHoverInfoStyles.css';
+
+import * as ActionTypes from '../store/actions/actionTypes';
 
 class CustomLayerHoverInfo extends React.Component {
     state = {
         placeId: '',
-        fields: [],
-        values: []
+        fieldsToShow: [],
+        valuesToShow: []
     }
 
     componentDidMount() {
         let { fields, fieldsToShow, data } = this.props;
         fieldsToShow = fieldsToShow.map(item => item.name);
-        const values = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
-        this.setState({ placeId: data[0], fields: fieldsToShow, values });
+        const valuesToShow = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
+        this.setState({ placeId: data[0], fieldsToShow, valuesToShow });
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -24,8 +27,8 @@ class CustomLayerHoverInfo extends React.Component {
             if(nextProps.data[0] !== this.props.data[0]) {
                 let { fields, fieldsToShow, data } = nextProps;
                 fieldsToShow = fieldsToShow.map(item => item.name);
-                const values = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
-                this.setState({ placeId: data[0], fields: fieldsToShow, values });
+                const valuesToShow = data.filter((item, index) => fieldsToShow.includes(fields[index].name));
+                this.setState({ placeId: data[0], fieldsToShow, valuesToShow });
 
                 return true;
                 
@@ -35,8 +38,32 @@ class CustomLayerHoverInfo extends React.Component {
         }
     }
 
+    buttonOnClickHandler = event => {
+        switch(event.target.name) {
+            case 'reTool':
+                break
+            case 'update':
+                // Display Update Modal and pass point data to autofill
+                const { data, fields } = this.props;
+                const updateModalInputData = {};
+                fields.forEach((item, index) => {
+                    updateModalInputData[item.name] = data[index];
+                });
+
+                this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: true } });
+                this.props.dispatch({ type: ActionTypes.SET_UPDATE_MODAL_INPUT_DATA, payload: { updateModalInputData } });
+                break
+            case 'delete':
+                break
+            case 'toVault':
+                break
+            default:
+                break
+        }
+    }
+
     render() {
-        let { fields, values } = this.state;
+        let { fieldsToShow, valuesToShow } = this.state;
         let { layer } = this.props;
 
         return (
@@ -46,10 +73,10 @@ class CustomLayerHoverInfo extends React.Component {
                 <div className='layer-info-body'>
                     <table>
                         <tbody>
-                            { fields.map((item, index) =>
+                            { fieldsToShow.map((item, index) =>
                                 <tr key={ index }>
                                     <td className='row-key'>{ item }</td>
-                                    <td className='row-value'>{ values[index] }</td>
+                                    <td className='row-value'>{ valuesToShow[index] }</td>
                                 </tr>
                             )}
                         </tbody>
@@ -59,19 +86,23 @@ class CustomLayerHoverInfo extends React.Component {
                 <div className='button-group'>
                     <button
                         type='button'
-                        onClick={ () => window.alert('Re-tool ' + values[0]) }
+                        name='reTool'
+                        onClick={ this.buttonOnClickHandler }
                     >Re-tool</button>
                     <button
                         type='button'
-                        onClick={ () => window.alert('Update ' + values[0]) }
+                        name='update'
+                        onClick={ this.buttonOnClickHandler }
                     >Update</button>
                     <button
                         type='button'
-                        onClick={ () => window.alert('Delete ' + values[0]) }
+                        name='delete'
+                        onClick={ this.buttonOnClickHandler }
                     >Delete</button>
                     <button
                         type='button'
-                        onClick={ () => window.alert('To Vault ' + values[0]) }
+                        name='toVault'
+                        onClick={ this.buttonOnClickHandler }
                     >To Vault</button>
                 </div>
             </div>
@@ -79,4 +110,11 @@ class CustomLayerHoverInfo extends React.Component {
     }
 }
 
-export default CustomLayerHoverInfo;
+const mapStateToProps = state => ({
+    isUpdateModalOpen: state.app.sidePanel.isUpdateModalOpen,
+    updateModalInputData: state.app.sidePanel.updateModalInputData
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomLayerHoverInfo);

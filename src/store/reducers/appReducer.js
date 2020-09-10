@@ -46,7 +46,9 @@ const initialState = {
         polygonPoints: {
             birdsEye: [],
             vault: []
-        }
+        },
+        isUpdateModalOpen: false,
+        updateModalInputData: {}
     }
 };
 
@@ -172,6 +174,22 @@ export function appReducer(state=initialState, action) {
                 sidePanel: {
                     ...state.sidePanel,
                     polygonModal: action.payload.polygonModal
+                }
+            };
+        case ActionTypes.SET_IS_UPDATE_MODAL_OPEN:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    isUpdateModalOpen: action.payload.isUpdateModalOpen
+                }
+            };
+        case ActionTypes.SET_UPDATE_MODAL_INPUT_DATA:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    updateModalInputData: action.payload.updateModalInputData
                 }
             };
         default: return state;

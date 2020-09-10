@@ -1,0 +1,75 @@
+.modal-container {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+.modal-container .modal-overlay {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.modal-container .modal-body {
+    margin: 0;
+    padding: 50px 10px;
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 70%;
+    max-height: 80%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.modal-container .modal-body > div {
+    margin: 0;
+    padding: 5px 5px;
+}
+
+.modal-container .modal-body .close-modal {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.modal-container .modal-body .close-modal span {
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+.modal-container .modal-body .close-modal:hover,
+.modal-container .modal-body .close-modal:active {
+    border: 1px solid maroon;
+    border-radius: 10px;
+    color: maroon;
+}
+
+.modal-container .modal-body .modal-content {
+    display: grid;
+    width: 100%;
+    overflow: auto;
+    align-items: flex-start;
+}
