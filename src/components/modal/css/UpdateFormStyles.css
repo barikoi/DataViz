@@ -41,22 +41,12 @@
     border: 1px solid darkgreen;
 }
 
-.form-container .update-form select {
-    width: 100%;
-    padding: 10px 5px;
-}
-
 .form-container .update-form #ptype-group label::after{
     content: '*';
 }
 
 .form-container .update-form #subtype-group label::after{
     content: '*';
-}
-
-.form-container .update-form select:focus,
-.form-container .update-form select:active {
-    border: 1px solid darkgreen;
 }
 
 .form-container .update-form #name-group,

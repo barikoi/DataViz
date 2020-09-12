@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import ReactSelect from 'react-select'
 
 import './css/UpdateFormStyles.css'
 
 const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
 const API_AUTH_TOKEN = process.env.REACT_APP_API_AUTH_TOKEN
 const P_TYPE_LIST_API_URL = '/place/get/type'
-let SUB_TYPE_LIST_API_URL = '/place/sub-type/'
 
 class UpdateForm extends React.PureComponent {
     state = {
@@ -25,8 +25,8 @@ class UpdateForm extends React.PureComponent {
         sub_district: '',
         unions: '',
         popularity_ranking: '',
-        pType: '',
-        subType: '',
+        pType: [],
+        subType: [],
         pTypeList: [],
         subTypeList: [],
     }
@@ -37,6 +37,9 @@ class UpdateForm extends React.PureComponent {
             const filteredStates = {}
             for(const key in autofillData) {
                 if(this.state.hasOwnProperty(key)) {
+                    if(key === 'pType' || key === 'subType') {
+                        autofillData[key] = autofillData[key].split(', ')
+                    }           
                     filteredStates[key] = autofillData[key];
                 }
             }
@@ -50,18 +53,28 @@ class UpdateForm extends React.PureComponent {
 
         axios.get(P_TYPE_LIST_API_URL)
             .then(results => {
-                const pTypeList = results.data.data.map(item => item.type)
+                const pTypeList = results.data.data.map(item => ({ value: item.type, label: item.type }))
                 this.setState({ pTypeList })
             })
             .catch(err => console.error(err))
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevState.pType !== this.state.pType && this.state.pType !== '') {
-            SUB_TYPE_LIST_API_URL = '/place/sub-type/' + this.state.pType + '/get'
-            axios.get(SUB_TYPE_LIST_API_URL)
+        const { pType } = this.state
+        if(prevState.pType.length !== pType.length && pType.length === 0) {
+            this.setState({ subTypeList: [] })
+        }
+
+        if(prevState.pType.length !== pType.length && pType.length !== 0) {
+            const fetches = this.state.pType.map(item => (axios.get('/place/sub-type/' + item + '/get')))
+            axios.all(fetches)
                 .then(results => {
-                    const subTypeList = results.data.data.map(item => item.subtype)
+                    let subTypeList = this.state.pType.map(item => ({ label: item, options: [] }))
+                    for(let i = 0; i < subTypeList.length; i++) {
+                        subTypeList[i].options = results[i].data.data.map(item =>
+                            ({ value: item.subtype, label: item.subtype })
+                        )
+                    }
                     this.setState({ subTypeList })
                 })
                 .catch(err => console.error(err))
@@ -82,12 +95,34 @@ class UpdateForm extends React.PureComponent {
         for (const key in this.state) {
             if(key === 'pTypeList' || key === 'subTypeList') {
                 continue
+
+            } else if(key === 'pType' || key === 'subType') {
+                filteredState[key] = this.state[key].join(', ')
+
             } else {
                 filteredState[key] = this.state[key]
             }
         }
 
         this.props.handleFormSubmit(filteredState)
+    }
+
+    handlePTypeSelectOnChange = values => {
+        if(values) {
+            const pType = values.map(item => item.value)
+            this.setState({ pType })
+        } else {
+            this.setState({ pType: [] })
+        }
+    }
+
+    handleSubTypeSelectOnChange = values => {
+        if(values) {
+            const subType = values.map(item => item.value)
+            this.setState({ subType })
+        } else {
+            this.setState({ subType: [] })
+        }
     }
 
     render() {
@@ -165,25 +200,55 @@ class UpdateForm extends React.PureComponent {
                     </div>
 
                     <div className='form-group' id='ptype-group'>
-                        <label htmlFor='ptype'>Primary Type</label>
-                        <select id='ptype' name='pType' value={ this.state.pType } onChange={ this.handleOnChange } required={ true }>
-                            <option value=''>--Select Primary Type--</option>
-                            { this.state.pTypeList.map((item, index) => <option key={ index } value={ item }>{ item }</option>) }
-                        </select>
+                        <label htmlFor='pType'>Primary Type</label>
+                        <ReactSelect
+                            id='pType'
+                            options={ this.state.pTypeList }
+                            value={ this.state.pTypeList.filter(item => this.state.pType.includes(item.value)) }
+                            styles={ selectStyles }
+                            isMulti={ true }
+                            closeMenuOnSelect={ false }
+                            onChange={ this.handlePTypeSelectOnChange }
+                            menuShouldScrollIntoView={ true }
+                        />
                     </div>
 
                     <div className='form-group' id='subtype-group'>
-                        <label htmlFor='subtype'>Sub Type</label>
-                        <select id='subtype' name='subType' value={ this.state.subType } onChange={ this.handleOnChange } required={ true }>
-                            <option value=''>--Select Sub Type--</option>
-                            { this.state.subTypeList.map((item, index) => <option key={ index } value={ item }>{ item }</option>) }
-                        </select>
+                        <label htmlFor='subType'>Sub Type</label>
+                        <ReactSelect
+                            id='subType'
+                            options={ this.state.subTypeList }
+                            value={ this.state.subTypeList.map(listItem => (
+                                    listItem.options.filter(item => this.state.subType.includes(item.value))
+                                )).flat() 
+                            }
+                            styles={ selectStyles }
+                            isMulti={ true }
+                            closeMenuOnSelect={ false }
+                            onChange={ this.handleSubTypeSelectOnChange }
+                            menuShouldScrollIntoView={ true }
+                        />
                     </div>
                     <button type='submit'>Save Changes</button>
                 </form>
             </div>
         )
     }
+}
+
+const selectStyles = {
+    container: provided => ({
+        ...provided,
+        width: '100%'
+    }),
+    control: provided => ({
+        ...provided,
+        width: '100%'
+    }),
+    option: provided => ({
+        ...provided,
+        textAlign: 'left'
+    })
 }
 
 UpdateForm.propTypes = {

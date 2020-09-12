@@ -26,7 +26,7 @@ class UpdateModalMap extends React.PureComponent {
 
     componentDidMount() {
         const { markerCoordinates } = this.props
-        this.setState({ markerCoordinates })
+        this.setState({ markerCoordinates, viewport: { latitude: markerCoordinates.lat, longitude: markerCoordinates.long } })
         this.props.handleMapFormSubmit(this.state.markerCoordinates)
     }
 
