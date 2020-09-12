@@ -16,7 +16,7 @@ class UpdateModalMap extends React.PureComponent {
             height: 400,
             latitude: 23.7577,
             longitude: 90.4376,
-            zoom: 8
+            zoom: 12
         },
         markerCoordinates: {
             lat: 23.7577,
@@ -86,6 +86,7 @@ class UpdateModalMap extends React.PureComponent {
                         onViewportChange={ this.handleMapViewportChange }
                         mapboxApiAccessToken={ MAPBOX_API_ACCESS_TOKEN }
                         onClick={ this.handleOnMapClick }
+                        mapStyle='https://map.barikoi.com/styles/osm-liberty/style.json'
                     >
                         <div style={geolocateStyle}>
                             <GeolocateControl />

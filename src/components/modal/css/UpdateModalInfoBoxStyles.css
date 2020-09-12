@@ -2,10 +2,12 @@
     margin: 0;
     padding: 15px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .update-modal-info-box input {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
+    box-sizing: border-box;
 }
