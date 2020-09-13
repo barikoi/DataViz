@@ -183,7 +183,7 @@ class KeplerGlMap extends React.Component {
         this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
     }
 
-    handleModaDataSubmit = data => {
+    handleModalDataSubmit = data => {
         console.log('Update Modal Submitted Data', data);
     }
 
@@ -222,7 +222,7 @@ class KeplerGlMap extends React.Component {
                     isUpdateModalOpen &&
                     <UpdateModal
                         closeModal={ this.closeModal }
-                        handleModaData={ this.handleModaDataSubmit }
+                        handleModalData={ this.handleModalDataSubmit }
                         updateModalInputData={ updateModalInputData }
                     />
                 }

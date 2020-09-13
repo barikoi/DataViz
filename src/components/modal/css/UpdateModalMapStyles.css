@@ -7,7 +7,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    grid-column: 1/3;
 }
 
 .modal-map-container .modal-map-set-long-lat {
@@ -61,7 +60,7 @@
 
 .modal-map-container .modal-map {
     margin-top: 10px;
-    border: 1px solid blue;
+    border: 1px solid darkgreen;
     width: 100%;
     height: 500px;
 }

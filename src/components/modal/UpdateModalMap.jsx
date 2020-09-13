@@ -27,16 +27,11 @@ class UpdateModalMap extends React.PureComponent {
     componentDidMount() {
         const { markerCoordinates } = this.props
         this.setState({ markerCoordinates, viewport: { ...this.state.viewport, latitude: markerCoordinates.lat, longitude: markerCoordinates.long } })
-        this.props.handleMapFormSubmit(this.state.markerCoordinates)
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { markerCoordinates } = this.state
-        if(prevState.markerCoordinates.lat !== markerCoordinates.lat) {
-            this.props.handleMapFormSubmit(this.state.markerCoordinates)
-        }
-
-        if(prevState.markerCoordinates.long !== markerCoordinates.long) {
+        if(prevState.markerCoordinates.lat !== markerCoordinates.lat || prevState.markerCoordinates.long !== markerCoordinates.long) {
             this.props.handleMapFormSubmit(this.state.markerCoordinates)
         }
     }
@@ -52,7 +47,7 @@ class UpdateModalMap extends React.PureComponent {
         const long = parseFloat(latLong[1])
         this.setState({
             markerCoordinates: { lat, long },
-            viewport: { latitude: lat, longitude: long }
+            viewport: { ...this.state.viewport, latitude: lat, longitude: long }
         })
     }
 

@@ -68,7 +68,8 @@
 
 .form-container .update-form #sub-area-group,
 .form-container .update-form #post-code-group,
-.form-container .update-form #sub-district-group {
+.form-container .update-form #sub-district-group,
+.form-container .update-form #upload-images-group {
     grid-column: 3/5;
 }
 

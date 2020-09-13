@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import ReactSelect from 'react-select'
+import { FilePicker } from 'evergreen-ui'
 
 import './css/UpdateFormStyles.css'
 
@@ -29,6 +30,7 @@ class UpdateForm extends React.PureComponent {
         subType: [],
         pTypeList: [],
         subTypeList: [],
+        image: []
     }
 
     componentDidMount() {
@@ -79,6 +81,35 @@ class UpdateForm extends React.PureComponent {
                 })
                 .catch(err => console.error(err))
         }
+
+        // When Props changed due to Reverse Geo on Map
+        if(prevProps.autofillData.city !== this.props.autofillData.city) {
+            this.setState({ city: this.props.autofillData.city ? this.props.autofillData.city : '' })
+        }
+
+        if(prevProps.autofillData.area !== this.props.autofillData.area) {
+            this.setState({ area: this.props.autofillData.area ? this.props.autofillData.area : '' })
+        }
+
+        if(prevProps.autofillData.postCode !== this.props.autofillData.postCode) {
+            this.setState({ postCode: this.props.autofillData.postCode ? this.props.autofillData.postCode : '' })
+        }
+
+        if(prevProps.autofillData.thana !== this.props.autofillData.thana) {
+            this.setState({ thana: this.props.autofillData.thana ? this.props.autofillData.thana : '' })
+        }
+
+        if(prevProps.autofillData.unions !== this.props.autofillData.unions) {
+            this.setState({ unions: this.props.autofillData.unions ? this.props.autofillData.unions : '' })
+        }
+
+        if(prevProps.autofillData.sub_district !== this.props.autofillData.sub_district) {
+            this.setState({ sub_district: this.props.autofillData.sub_district ? this.props.autofillData.sub_district : '' })
+        }
+
+        if(prevProps.autofillData.district !== this.props.autofillData.district) {
+            this.setState({ district: this.props.autofillData.district ? this.props.autofillData.district : '' })
+        }
     }
 
     handleOnChange = event => {
@@ -123,6 +154,10 @@ class UpdateForm extends React.PureComponent {
         } else {
             this.setState({ subType: [] })
         }
+    }
+
+    handleImageUploadOnChange = files => {
+        this.setState({ image: files })
     }
 
     render() {
@@ -197,6 +232,16 @@ class UpdateForm extends React.PureComponent {
                     <div className='form-group' id='popularity-ranking-group'>
                         <label htmlFor='popularity-ranking'>Popularity Ranking</label>
                         <input type='number' id='popularity-ranking' name='popularity_ranking' value={ this.state.popularityRanking } placeholder='Popularity Ranking...' onChange={ this.handleNumberOnChange } />
+                    </div>
+
+                    <div className='form-group' id='upload-images-group'>
+                        <label>Upload Images</label>
+                        <FilePicker
+                            name='image'
+                            accept='.jpg, .JPG, .png, .PNG'
+                            multiple={ true }
+                            onChange={ this.handleImageUploadOnChange }
+                        />
                     </div>
 
                     <div className='form-group' id='ptype-group'>
