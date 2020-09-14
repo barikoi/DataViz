@@ -4,3 +4,16 @@
   text-align: center;
   width: 100%;
 }
+
+.app .map-popover {
+  z-index: 5;
+}
+
+div[role=dialog] {
+  margin-left: 15px;
+}
+
+#downshift-0-menu {
+  width: 100%;
+  box-sizing: border-box;
+}

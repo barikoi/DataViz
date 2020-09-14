@@ -8,12 +8,13 @@ import UpdateModalSearchBox from './UpdateModalSearchBox'
 import UpdateModalInfoBox from './UpdateModalInfoBox'
 import UpdateForm from './UpdateForm'
 import { Carousel } from 'react-responsive-carousel'
-import { SearchInput, Autocomplete } from 'evergreen-ui'
+import { SearchInput, Autocomplete, Position } from 'evergreen-ui'
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import './css/UpdateModalStyles.css'
 
 const REVERSE_GEO_API_URL = '/reverse/without/auth'
+const SEARCH_API_URL = '/tnt/search/admin'
 
 class UpdateModal extends React.PureComponent {
     state = {
@@ -21,7 +22,9 @@ class UpdateModal extends React.PureComponent {
             private_public_flag: 1
         },
         searchInput: '',
-        reverseGeoInfo: null
+        reverseGeoInfo: null,
+        isAutocompleteFetching: false,
+        autoCompleteList: []
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -34,6 +37,17 @@ class UpdateModal extends React.PureComponent {
                     this.setState({ reverseGeoInfo })
                 })
                 .catch(err => console.error(err))
+        }
+
+        if((prevState.isAutocompleteFetching !== this.state.isAutocompleteFetching && this.state.isAutocompleteFetching) && (prevState.searchInput !== this.state.searchInput && this.state.searchInput)) {
+            axios.post(SEARCH_API_URL, { search: this.state.searchInput })
+                .then(res => {
+                    const autoCompleteList = res.data.places.map(item => item.Address)
+                    this.setState({ autoCompleteList, isAutocompleteFetching: false })
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
     }
 
@@ -61,20 +75,30 @@ class UpdateModal extends React.PureComponent {
     handleSearchOnChange = event => {
         this.setState({ searchInput: event.target.value })
     }
-    
-    handleUpdateSearchSubmit = event => {
-        if(event.key === 'Enter') {
-            console.log('Search', this.state.searchInput)
-        }
-    }
 
     handleModalDataSubmit = () => {
         this.props.handleModalData(this.state.data)
+    }
+
+    fetchSearchAutocompleteList = (items, searchInput) => {
+        // If Search Empty
+        if(!searchInput) {
+            return []
+
+        } else {
+            if(!this.state.isAutocompleteFetching && searchInput !== this.state.searchInput) {
+                console.log('Search:', searchInput)
+                this.setState({ isAutocompleteFetching: true, searchInput })
+            }
+
+            return this.state.autoCompleteList
+        }
     }
     
     render() {
         const { updateModalInputData } = this.props
         const { reverseGeoInfo } = this.state
+
         return (
             <div className='modal-container'>
                 <div className='modal-overlay'></div>
@@ -100,8 +124,12 @@ class UpdateModal extends React.PureComponent {
                             <div className='autocomplete-container'>
                                 <Autocomplete
                                     title='Places'
-                                    items={ ['Apple', 'Apricot', 'Banana', 'Cherry', 'Cucumber'] }
+                                    items={ [] }
+                                    position={ Position.BOTTOM_LEFT }
                                     onChange={ changedItem => console.log(changedItem) }
+                                    itemsFilter={ this.fetchSearchAutocompleteList }
+                                    popoverMinWidth={ 500 }
+                                    selectedItem={ null }
                                 >
                                     { props => {
                                         const { getInputProps, getRef, inputValue } = props
@@ -113,7 +141,6 @@ class UpdateModal extends React.PureComponent {
                                                 paddingLeft='15px'
                                                 paddingRight='15px'
                                                 height={ 40 }
-                                                zIndex={ 1200 }
                                                 value={ inputValue }
                                                 ref={ getRef }
                                                 { ...getInputProps() }
