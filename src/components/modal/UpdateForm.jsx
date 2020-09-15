@@ -160,6 +160,10 @@ class UpdateForm extends React.PureComponent {
         this.setState({ image: files })
     }
 
+    resetToInitial = () => {
+        this.props.resetToInitialProps()
+    }
+
     render() {
         return (
             <div className='form-container'>
@@ -274,6 +278,7 @@ class UpdateForm extends React.PureComponent {
                             menuShouldScrollIntoView={ true }
                         />
                     </div>
+                    <button className='reset-modal' type='reset' onClick={ this.resetToInitial }>Reset</button>
                     <button type='submit'>Save Changes</button>
                 </form>
             </div>
@@ -296,9 +301,14 @@ const selectStyles = {
     })
 }
 
+UpdateForm.defaultProps = {
+    autofillData: null
+}
+
 UpdateForm.propTypes = {
     handleFormSubmit: PropTypes.func.isRequired,
-    autofillData: PropTypes.object
+    autofillData: PropTypes.object,
+    resetToInitialProps: PropTypes.func
 }
 
 export default UpdateForm

@@ -18,86 +18,93 @@ const SEARCH_API_URL = '/tnt/search/admin'
 
 class UpdateModal extends React.PureComponent {
     state = {
-        data: {
-            private_public_flag: 1
-        },
+        data: null,
         searchInput: '',
-        reverseGeoInfo: null,
         isAutocompleteFetching: false,
+        isRverseGeoOn: false,
         autoCompleteList: []
     }
 
+    componentDidMount() {
+        const { updateModalInputData } = this.props
+        this.setState({ data: updateModalInputData })
+    }
+
     componentDidUpdate(prevProps, prevState) {
-        let { latitude, longitude } = this.state.data
-        let { updateModalInputData } = this.props
-        if((prevState.data.latitude !== latitude || prevState.data.longitude !== longitude) && (latitude !== updateModalInputData.latitude || longitude !== updateModalInputData.longitude)) {
+        let { latitude, longitude } = this.state.data ? this.state.data : { latitude: null, longitude: null }
+
+        // If Lat long changes on the Map for Reverse Geo
+        if(prevState.data && (prevState.data.latitude !== latitude || prevState.data.longitude !== longitude)) {
             axios.get(REVERSE_GEO_API_URL, { params: { latitude, longitude } })
                 .then(results => {
                     const reverseGeoInfo = results.data[0]
-                    this.setState({ reverseGeoInfo })
+                    this.setState({ data: reverseGeoInfo, isRverseGeoOn: false })
                 })
                 .catch(err => console.error(err))
         }
 
-        if((prevState.isAutocompleteFetching !== this.state.isAutocompleteFetching && this.state.isAutocompleteFetching) && (prevState.searchInput !== this.state.searchInput && this.state.searchInput)) {
+        // If Search Input Changes for autocomplete
+        if(prevState.isAutocompleteFetching !== this.state.isAutocompleteFetching && this.state.isAutocompleteFetching) {
             axios.post(SEARCH_API_URL, { search: this.state.searchInput })
                 .then(res => {
-                    const autoCompleteList = res.data.places.map(item => item.Address)
+                    const autoCompleteList = res.data.places
                     this.setState({ autoCompleteList, isAutocompleteFetching: false })
                 })
                 .catch(err => {
                     console.error(err)
+                    this.setState({ autoCompleteList: [], isAutocompleteFetching: false })
                 })
         }
     }
 
     handleFormSubmit = values => {
-        new Promise(resolve => {
-            // Omit Empty data
-            for(const key in values) {
-                if(values[key] === '') {
-                    delete values[key]
-                }
-            }
+        // new Promise(resolve => {
+        //     // Omit Empty data
+        //     for(const key in values) {
+        //         if(values[key] === '') {
+        //             delete values[key]
+        //         }
+        //     }
 
-            this.setState({ data: { ...this.state.data, ...values } })
-            resolve()
-        })
-        .then(() => {
-            this.handleModalDataSubmit()
-        })
+        //     this.setState({ data: { ...this.state.data, ...values } })
+        //     resolve()
+        // })
+        // .then(() => {
+        //     this.handleModalDataSubmit()
+        // })
     }
 
     handleMapFormSubmit = values => {
-        this.setState({ data: { ...this.state.data, latitude: values.lat, longitude: values.long } })
-    }
-
-    handleSearchOnChange = event => {
-        this.setState({ searchInput: event.target.value })
+        this.setState({ data: { ...this.state.data, latitude: values.latitude, longitude: values.longitude }, isRverseGeoOn: true })
     }
 
     handleModalDataSubmit = () => {
-        this.props.handleModalData(this.state.data)
+        // this.props.handleModalData(this.state.data)
     }
 
     fetchSearchAutocompleteList = (items, searchInput) => {
-        // If Search Empty
-        if(!searchInput) {
-            return []
-
-        } else {
-            if(!this.state.isAutocompleteFetching && searchInput !== this.state.searchInput) {
-                console.log('Search:', searchInput)
-                this.setState({ isAutocompleteFetching: true, searchInput })
-            }
-
-            return this.state.autoCompleteList
+        // Won't reach here if empty
+        if(!this.state.isAutocompleteFetching && searchInput !== this.state.searchInput) {
+            this.setState({ isAutocompleteFetching: true, searchInput })
         }
+
+        return this.state.autoCompleteList.filter(item => item.Address).map(item => item.Address)
+    }
+
+    handleOnAutocompleteSelect = selectedItem => {
+        // Handle Selected Item and autofill form
+        const selectedPlace = this.state.autoCompleteList.find(item => item.Address === selectedItem)
+        this.setState({ searchInput: '', autoCompleteList: [], data: selectedPlace })
+    }
+
+    resetToInitialProps = () => {
+        const { updateModalInputData } = this.props
+        this.setState({ data: updateModalInputData, searchInput: '', isAutocompleteFetching: false, autoCompleteList: [], isRverseGeoOn: false })
     }
     
     render() {
-        const { updateModalInputData } = this.props
-        const { reverseGeoInfo } = this.state
+        const { data } = this.state
+        if(!data) return null
 
         return (
             <div className='modal-container'>
@@ -108,12 +115,12 @@ class UpdateModal extends React.PureComponent {
                         <div className='map-panel'>
                             <UpdateModalMap
                                 handleMapFormSubmit={ this.handleMapFormSubmit }
-                                markerCoordinates={{ lat: updateModalInputData.latitude, long: updateModalInputData.longitude }}
+                                markerCoordinates={{ latitude: data.latitude, longitude: data.longitude }}
                             />
-                            { updateModalInputData.image &&
+                            { data.image &&
                                 <Carousel renderThumbs={ () => null }>
                                     <div>
-                                        <img src={ process.env.REACT_APP_BASE_API_URL + updateModalInputData.image.image_link } />
+                                        <img src={ process.env.REACT_APP_BASE_API_URL + data.image.image_link } />
                                     </div>
                                 </Carousel>
                             }
@@ -126,7 +133,7 @@ class UpdateModal extends React.PureComponent {
                                     title='Places'
                                     items={ [] }
                                     position={ Position.BOTTOM_LEFT }
-                                    onChange={ changedItem => console.log(changedItem) }
+                                    onChange={ this.handleOnAutocompleteSelect }
                                     itemsFilter={ this.fetchSearchAutocompleteList }
                                     popoverMinWidth={ 500 }
                                     selectedItem={ null }
@@ -151,24 +158,13 @@ class UpdateModal extends React.PureComponent {
                             </div>
 
                             <UpdateModalInfoBox
-                                info={ reverseGeoInfo ? reverseGeoInfo.Address : updateModalInputData.Address }
+                                info={ data.Address }
                             />
 
                             <UpdateForm
                                 handleFormSubmit={ this.handleFormSubmit }
-                                autofillData={ reverseGeoInfo ?
-                                    {
-                                        ...updateModalInputData,
-                                        area: reverseGeoInfo.area,
-                                        city: reverseGeoInfo.city,
-                                        postCode: reverseGeoInfo.postCode,
-                                        thana: reverseGeoInfo.thana,
-                                        unions: reverseGeoInfo.unions,
-                                        sub_district: reverseGeoInfo.sub_district,
-                                        district: reverseGeoInfo.district
-                                    }
-                                    : updateModalInputData
-                                }
+                                autofillData={ data }
+                                resetToInitialProps={ this.resetToInitialProps }
                             />
                         </UpdateModalActionPanel>
                     </div>

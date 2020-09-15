@@ -105,3 +105,22 @@
     background-color: green;
     cursor: pointer;
 }
+
+.form-container .update-form button[type=reset] {
+    margin-top: 10px;
+    padding: 5px 10px;
+    height: 30px;
+    background-color: midnightblue;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    grid-column: 5/6;
+    box-sizing: border-box;
+}
+
+.form-container .update-form button[type=reset]:hover,
+.form-container .update-form button[type=reset]:active {
+    background-color: mediumblue;
+    cursor: pointer;
+}

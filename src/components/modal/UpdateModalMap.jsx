@@ -17,22 +17,23 @@ class UpdateModalMap extends React.PureComponent {
             latitude: 23.7577,
             longitude: 90.4376,
             zoom: 12
-        },
-        markerCoordinates: {
-            lat: 23.7577,
-            long: 90.4376
         }
     }
 
     componentDidMount() {
-        const { markerCoordinates } = this.props
-        this.setState({ markerCoordinates, viewport: { ...this.state.viewport, latitude: markerCoordinates.lat, longitude: markerCoordinates.long } })
+        const { latitude, longitude } = this.props.markerCoordinates
+        this.setState({ viewport: { ...this.state.viewport, latitude, longitude } })
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { markerCoordinates } = this.state
-        if(prevState.markerCoordinates.lat !== markerCoordinates.lat || prevState.markerCoordinates.long !== markerCoordinates.long) {
-            this.props.handleMapFormSubmit(this.state.markerCoordinates)
+        const { latitude, longitude } = this.props.markerCoordinates
+
+        // If Lat-Long Changed on props
+        if(prevProps.markerCoordinates.latitude !== latitude || prevProps.markerCoordinates.longitude !== longitude) {
+            this.setState({
+                latLong: latitude + ', ' + longitude,
+                viewport: { ...this.state.viewport, latitude, longitude }
+            })
         }
     }
 
@@ -43,12 +44,9 @@ class UpdateModalMap extends React.PureComponent {
     handleOnSubmit = event => {
         event.preventDefault()
         const latLong = this.state.latLong.split(', ')
-        const lat = parseFloat(latLong[0])
-        const long = parseFloat(latLong[1])
-        this.setState({
-            markerCoordinates: { lat, long },
-            viewport: { ...this.state.viewport, latitude: lat, longitude: long }
-        })
+        const latitude = parseFloat(latLong[0])
+        const longitude = parseFloat(latLong[1])
+        this.props.handleMapFormSubmit({ latitude, longitude })
     }
 
     handleMapViewportChange = viewport => {
@@ -57,25 +55,26 @@ class UpdateModalMap extends React.PureComponent {
 
     handleOnMapClick = clickedInfo => {
         const { lngLat } = clickedInfo
-        this.setState({
-            latLong: lngLat[1]+', '+lngLat[0],
-            markerCoordinates: { lat: lngLat[1], long: lngLat[0] }
-        })
+        this.setState({ latLong: lngLat[1]+', '+lngLat[0] })
+        this.props.handleMapFormSubmit({ latitude: lngLat[1], longitude: lngLat[0] })
     }
 
     render() {
+        const { latLong, viewport } = this.state
+        const { markerCoordinates } = this.props
+
         return (
             <div className='modal-map-container'>
                 <div className='modal-map-set-long-lat'>
                     <form className='set-long-lat-form' onSubmit={ this.handleOnSubmit }>
-                        <input type='text' id='map-set-long-lat' name='latLong' placeholder='Lat, Long...' value={ this.state.latLong } onChange={ this.handleOnChange } required={ true } />
+                        <input type='text' id='map-set-long-lat' name='latLong' placeholder='Lat, Long...' value={ latLong } onChange={ this.handleOnChange } required={ true } />
                         <button type='submit'>Set</button>
                     </form>
                 </div>
                 
                 <div className='modal-map'>
                     <ReactMapGl
-                        {...this.state.viewport}
+                        { ...viewport }
                         width='100%'
                         height='100%'
                         onViewportChange={ this.handleMapViewportChange }
@@ -83,17 +82,17 @@ class UpdateModalMap extends React.PureComponent {
                         onClick={ this.handleOnMapClick }
                         mapStyle='https://map.barikoi.com/styles/osm-liberty/style.json'
                     >
-                        <div style={geolocateStyle}>
+                        <div style={ geolocateStyle }>
                             <GeolocateControl />
                         </div>
-                        <div style={fullscreenControlStyle}>
+                        <div style={ fullscreenControlStyle }>
                             <FullscreenControl />
                         </div>
-                        <div style={scaleControlStyle}>
+                        <div style={ scaleControlStyle }>
                             <ScaleControl />
                         </div>
 
-                        <Marker latitude={ this.state.markerCoordinates.lat } longitude={ this.state.markerCoordinates.long }>
+                        <Marker latitude={ markerCoordinates.latitude } longitude={ markerCoordinates.longitude }>
                             <MapMarkerPin />
                         </Marker>
                     </ReactMapGl>
