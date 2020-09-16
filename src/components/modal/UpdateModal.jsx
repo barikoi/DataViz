@@ -4,7 +4,6 @@ import axios from 'axios'
 
 import UpdateModalMap from './UpdateModalMap'
 import UpdateModalActionPanel from './UpdateModalActionPanel'
-import UpdateModalSearchBox from './UpdateModalSearchBox'
 import UpdateModalInfoBox from './UpdateModalInfoBox'
 import UpdateForm from './UpdateForm'
 import { Carousel } from 'react-responsive-carousel'
@@ -13,7 +12,6 @@ import { SearchInput, Autocomplete, Position } from 'evergreen-ui'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import './css/UpdateModalStyles.css'
 
-const REVERSE_GEO_API_URL = '/reverse/without/auth'
 const SEARCH_API_URL = '/tnt/search/admin'
 
 class UpdateModal extends React.PureComponent {
@@ -21,7 +19,6 @@ class UpdateModal extends React.PureComponent {
         data: null,
         searchInput: '',
         isAutocompleteFetching: false,
-        isRverseGeoOn: false,
         autoCompleteList: []
     }
 
@@ -31,18 +28,6 @@ class UpdateModal extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let { latitude, longitude } = this.state.data ? this.state.data : { latitude: null, longitude: null }
-
-        // If Lat long changes on the Map for Reverse Geo
-        if(prevState.data && (prevState.data.latitude !== latitude || prevState.data.longitude !== longitude)) {
-            axios.get(REVERSE_GEO_API_URL, { params: { latitude, longitude } })
-                .then(results => {
-                    const reverseGeoInfo = results.data[0]
-                    this.setState({ data: reverseGeoInfo, isRverseGeoOn: false })
-                })
-                .catch(err => console.error(err))
-        }
-
         // If Search Input Changes for autocomplete
         if(prevState.isAutocompleteFetching !== this.state.isAutocompleteFetching && this.state.isAutocompleteFetching) {
             axios.post(SEARCH_API_URL, { search: this.state.searchInput })
@@ -58,28 +43,53 @@ class UpdateModal extends React.PureComponent {
     }
 
     handleFormSubmit = values => {
-        // new Promise(resolve => {
-        //     // Omit Empty data
-        //     for(const key in values) {
-        //         if(values[key] === '') {
-        //             delete values[key]
-        //         }
-        //     }
+        new Promise(resolve => {
+            // Omit Empty data
+            // for(const key in values) {
+            //     if(values[key] === '') {
+            //         delete values[key]
+            //     }
+            // }
 
-        //     this.setState({ data: { ...this.state.data, ...values } })
-        //     resolve()
-        // })
-        // .then(() => {
-        //     this.handleModalDataSubmit()
-        // })
+            this.setState({ data: { ...this.state.data, ...values } })
+            resolve()
+        })
+        .then(() => {
+            this.handleModalDataSubmit()
+        })
     }
 
-    handleMapFormSubmit = values => {
-        this.setState({ data: { ...this.state.data, latitude: values.latitude, longitude: values.longitude }, isRverseGeoOn: true })
+    handleMapFormSubmit = data => {
+        this.setState({ data })
     }
 
     handleModalDataSubmit = () => {
-        // this.props.handleModalData(this.state.data)
+        const { data } = this.state
+        // Filter Submit Data
+        const filteredData = {
+            business_name: data.business_name,
+            place_name: data.place_name,
+            holding_number: data.holding_number,
+            road_name_number: data.road_name_number,
+            super_sub_area: data.super_sub_area,
+            sub_area: data.sub_area,
+            area: data.area,
+            city: data.city,
+            postCode: data.postCode,
+            thana: data.thana,
+            district: data.district,
+            sub_district: data.sub_district,
+            unions: data.unions,
+            popularity_ranking: data.popularity_ranking,
+            image: data.image,
+            pType: data.pType,
+            subType: data.subType,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            private_public_flag: 1
+        }
+
+        this.props.handleModalData(filteredData)
     }
 
     fetchSearchAutocompleteList = (items, searchInput) => {
@@ -99,7 +109,7 @@ class UpdateModal extends React.PureComponent {
 
     resetToInitialProps = () => {
         const { updateModalInputData } = this.props
-        this.setState({ data: updateModalInputData, searchInput: '', isAutocompleteFetching: false, autoCompleteList: [], isRverseGeoOn: false })
+        this.setState({ data: updateModalInputData, searchInput: '', isAutocompleteFetching: false, autoCompleteList: [] })
     }
     
     render() {
@@ -126,8 +136,6 @@ class UpdateModal extends React.PureComponent {
                             }
                         </div>
                         <UpdateModalActionPanel>
-                            {/* <UpdateModalSearchBox handleSearchSubmit={ this.handleUpdateSearchSubmit } /> */}
-
                             <div className='autocomplete-container'>
                                 <Autocomplete
                                     title='Places'

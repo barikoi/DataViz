@@ -12,6 +12,10 @@
 .modal-map-container .modal-map-set-long-lat {
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .modal-map-container .modal-map-set-long-lat form {
@@ -22,6 +26,14 @@
     align-items: center;
 }
 
+.modal-map-container .modal-map-set-long-lat .input-error {
+    margin: 0;
+    padding: 0;
+    display: block;
+    color: red;
+    font-size: 0.7rem;
+}
+
 .modal-map-container .modal-map-set-long-lat form input {
     margin: 0;
     padding: 10px 10px;
@@ -30,6 +42,12 @@
     border-radius: 5px;
     outline: none;
     border: 1px solid grey;
+}
+
+.modal-map-container .modal-map-set-long-lat form input::after {
+    content: '******';
+    display: block;
+    background-color: red;
 }
 
 .modal-map-container .modal-map-set-long-lat form input:focus,
