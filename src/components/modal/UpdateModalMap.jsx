@@ -19,7 +19,7 @@ class UpdateModalMap extends React.PureComponent {
             height: 400,
             latitude: 23.7577,
             longitude: 90.4376,
-            zoom: 12
+            zoom: 18
         },
         error: {}
     }

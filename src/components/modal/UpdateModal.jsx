@@ -12,7 +12,7 @@ import { SearchInput, Autocomplete, Position } from 'evergreen-ui'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import './css/UpdateModalStyles.css'
 
-const SEARCH_API_URL = '/tnt/search/admin'
+const SEARCH_API_URL = '/search/autocomplete/admin'
 
 class UpdateModal extends React.PureComponent {
     state = {
@@ -30,7 +30,7 @@ class UpdateModal extends React.PureComponent {
     componentDidUpdate(prevProps, prevState) {
         // If Search Input Changes for autocomplete
         if(prevState.isAutocompleteFetching !== this.state.isAutocompleteFetching && this.state.isAutocompleteFetching) {
-            axios.post(SEARCH_API_URL, { search: this.state.searchInput })
+            axios.get(SEARCH_API_URL, { params: { search: this.state.searchInput } })
                 .then(res => {
                     const autoCompleteList = res.data.places
                     this.setState({ autoCompleteList, isAutocompleteFetching: false })
@@ -45,11 +45,11 @@ class UpdateModal extends React.PureComponent {
     handleFormSubmit = values => {
         new Promise(resolve => {
             // Omit Empty data
-            // for(const key in values) {
-            //     if(values[key] === '') {
-            //         delete values[key]
-            //     }
-            // }
+            for(const key in values) {
+                if(values[key] === '') {
+                    delete values[key]
+                }
+            }
 
             this.setState({ data: { ...this.state.data, ...values } })
             resolve()
@@ -109,7 +109,7 @@ class UpdateModal extends React.PureComponent {
 
     resetToInitialProps = () => {
         const { updateModalInputData } = this.props
-        this.setState({ data: updateModalInputData, searchInput: '', isAutocompleteFetching: false, autoCompleteList: [] })
+        this.setState({ data: { ...updateModalInputData }, searchInput: '', isAutocompleteFetching: false, autoCompleteList: [] })
     }
     
     render() {

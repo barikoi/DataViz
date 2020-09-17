@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import ReactSelect from 'react-select'
 import { FilePicker } from 'evergreen-ui'
+import { isArrayEqual } from '../../utils/arrayUtils'
 
 import './css/UpdateFormStyles.css'
 
@@ -40,9 +41,11 @@ class UpdateForm extends React.PureComponent {
             for(const key in autofillData) {
                 if(this.state.hasOwnProperty(key)) {
                     if(key === 'pType' || key === 'subType') {
-                        autofillData[key] = autofillData[key].split(', ')
-                    }           
-                    filteredStates[key] = autofillData[key];
+                        filteredStates[key] = autofillData[key].split(', ')
+
+                    } else {
+                        filteredStates[key] = autofillData[key];
+                    }
                 }
             }
 
@@ -63,11 +66,24 @@ class UpdateForm extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         const { pType } = this.state
-        if(prevState.pType.length !== pType.length && pType.length === 0) {
-            this.setState({ subTypeList: [] })
+        const { autofillData } = this.props
+
+        if(prevProps.autofillData.id !== autofillData.id && autofillData.id) {
+            this.setState({
+                ...this.state,
+                ...autofillData,
+                pType: autofillData.pType ? autofillData.pType.split(', ') : [],
+                subType: autofillData.subType ? autofillData.subType.split(', ') : []
+            })
         }
 
-        if(prevState.pType.length !== pType.length && pType.length !== 0) {
+        // If pType is Empty in State
+        if(prevState.pType.length !== pType.length && pType.length === 0) {
+            this.setState({ subTypeList: [], subType: [] })
+        }
+
+        // If pType is changed and not empty
+        if(pType.length !== 0 && !isArrayEqual(prevState.pType, pType)) {
             const fetches = this.state.pType.map(item => (axios.get('/place/sub-type/' + item + '/get')))
             axios.all(fetches)
                 .then(results => {
@@ -77,38 +93,12 @@ class UpdateForm extends React.PureComponent {
                             ({ value: item.subtype, label: item.subtype })
                         )
                     }
-                    this.setState({ subTypeList })
+
+                    let subType = this.state.subType.filter(sub => subTypeList.map(item => item.options.map(val => val.value)).flat().includes(sub))
+
+                    this.setState({ subTypeList, subType })
                 })
                 .catch(err => console.error(err))
-        }
-
-        // When Props changed due to Reverse Geo on Map
-        if(prevProps.autofillData.city !== this.props.autofillData.city) {
-            this.setState({ city: this.props.autofillData.city ? this.props.autofillData.city : '' })
-        }
-
-        if(prevProps.autofillData.area !== this.props.autofillData.area) {
-            this.setState({ area: this.props.autofillData.area ? this.props.autofillData.area : '' })
-        }
-
-        if(prevProps.autofillData.postCode !== this.props.autofillData.postCode) {
-            this.setState({ postCode: this.props.autofillData.postCode ? this.props.autofillData.postCode : '' })
-        }
-
-        if(prevProps.autofillData.thana !== this.props.autofillData.thana) {
-            this.setState({ thana: this.props.autofillData.thana ? this.props.autofillData.thana : '' })
-        }
-
-        if(prevProps.autofillData.unions !== this.props.autofillData.unions) {
-            this.setState({ unions: this.props.autofillData.unions ? this.props.autofillData.unions : '' })
-        }
-
-        if(prevProps.autofillData.sub_district !== this.props.autofillData.sub_district) {
-            this.setState({ sub_district: this.props.autofillData.sub_district ? this.props.autofillData.sub_district : '' })
-        }
-
-        if(prevProps.autofillData.district !== this.props.autofillData.district) {
-            this.setState({ district: this.props.autofillData.district ? this.props.autofillData.district : '' })
         }
     }
 
