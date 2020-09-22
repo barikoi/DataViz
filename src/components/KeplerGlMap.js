@@ -6,7 +6,7 @@ import KeplerGl from './KeplerGl';
 import KeplerSidePanel from './KeplerSidePanel';
 import PointsInPolygonModal from './PointsInPolygonModal';
 import Draggable from 'react-draggable';
-import UpdateModal from './modal/UpdateModal';
+import Modal from './modal/Modal';
 
 // Import Actions
 import * as ActionTypes from '../store/actions/actionTypes';
@@ -18,6 +18,11 @@ import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFil
 const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
 class KeplerGlMap extends React.Component {
+    state = {
+        isModalShown: true,
+        isModalConfirmLoading: false
+    }
+
     componentDidMount() {
         // Load Data To Map
         this.props.dispatch( loadDataToMap() );
@@ -179,12 +184,35 @@ class KeplerGlMap extends React.Component {
     }
 
     // Update Modal
-    closeModal = () => {
+    // closeModal = () => {
+    //     this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
+    // }
+
+    // handleModalDataSubmit = data => {
+    //     console.log('Update Modal Submitted Data', data);
+    // }
+
+    //////////////////////////
+    // Modal Funtionalities //
+    //////////////////////////
+    showModal = () => {
+        // this.setState({ isModalShown: true })
+    }
+    
+    hideModal = () => {
+        // this.setState({ isModalShown: false, isModalConfirmLoading: false })
         this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_UPDATE_MODAL_INPUT_DATA, payload: { updateModalInputData: null } });
     }
 
-    handleModalDataSubmit = data => {
-        console.log('Update Modal Submitted Data', data);
+    onConfirmModal = place => {
+        //this.setState({ isModalConfirmLoading: true })
+
+        setTimeout(() => {
+            console.log('Saved Changes from Modal.', place)
+            // this.setState({ isModalConfirmLoading: false })
+            // this.hideModal()
+        }, 1000)
     }
 
     render() {
@@ -220,11 +248,20 @@ class KeplerGlMap extends React.Component {
 
                 {
                     isUpdateModalOpen &&
-                    <UpdateModal
-                        closeModal={ this.closeModal }
-                        handleModalData={ this.handleModalDataSubmit }
-                        updateModalInputData={ updateModalInputData }
+                    <Modal
+                        isModalShown={ isUpdateModalOpen }
+                        onCloseComplete={ this.hideModal }
+                        title='Update Place'
+                        confirmLabel='Update'
+                        onConfirm={ this.onConfirmModal }
+                        //isConfirmLoading={ isModalConfirmLoading }
+                        place={ updateModalInputData }
                     />
+                    // <UpdateModal
+                    //     closeModal={ this.closeModal }
+                    //     handleModalData={ this.handleModalDataSubmit }
+                    //     updateModalInputData={ updateModalInputData }
+                    // />
                 }
 
                 {
