@@ -14,7 +14,7 @@ class ModalMapPanel extends React.PureComponent {
     state = {
         viewport: {
             width: 300,
-            height: 682,
+            height: 622,
             latitude: 23.7276491,
             longitude: 90.4083781,
             zoom: 12

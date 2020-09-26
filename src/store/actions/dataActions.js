@@ -2,6 +2,7 @@ import { wrapTo, addDataToMap, updateMap, setFilter } from 'kepler.gl/actions';
 import { processRowObject } from 'kepler.gl/processors';
 import { fetchDataFromAPI } from './actionUtils';
 import * as ActionTypes from './actionTypes';
+import axios from 'axios'
 
 // Import initial Map Config
 import initialMapConfig from '../../configs/birds_eye_vault_data_initial_config.json';
@@ -14,6 +15,9 @@ const defaultZoom = 6.519345239926352;
 
 // Global Default Lat-Long
 const defaultLatLong = { lat: 23.86012585824617, lng: 88.54398598131883 };
+
+// API URLS
+const UPDATE_PLACE_API = '/auth/place/update/IEEL6473'
 
 export function loadDataToMap() {
     return (dispatch, getState) => {
@@ -72,5 +76,22 @@ export function loadDataToMap() {
             .catch(err => {
                 console.error(err);
             })
+    }
+}
+
+// Update Place Data from Call-to-action Modal
+export function updatePlace(place) {
+    return (dispatch) => {
+        let { uCode } = place
+        delete place.uCode
+        delete place.private_public_flag
+
+        if(place) {
+            axios.post(UPDATE_PLACE_API + uCode, { ...place })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => console.error(err))
+        }
     }
 }

@@ -13,7 +13,7 @@ export function replaceNullKeys(obj) {
 }
 
 // Filter Place prop to keep only keys that are in state and update with prop place values
-export function filterPlaceProp(props, state) {
+export function filterPlaceProp(props, state, skipKeys=null) {
     let filteredProps = {}
     Object.keys(props).forEach(key => {
         if(Object.keys(state).includes(key)) {
@@ -25,6 +25,13 @@ export function filterPlaceProp(props, state) {
             const type = typeof props[key]
             if(type === 'string' || type === 'String' || type === 'STRING') {
                 value = value.trim()
+            }
+
+            // If SkipKeys are provided
+            if(skipKeys) {
+                if(skipKeys.includes(key)) {
+                    return
+                }
             }
 
             filteredProps[key] = value

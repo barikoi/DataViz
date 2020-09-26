@@ -35,6 +35,7 @@ export function latLongValidator(latitude, longitude) {
 
                     } else {
                         res.data = results.data[0]
+                        delete res.data.uCode
                     }
 
                     return res

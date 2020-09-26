@@ -57,7 +57,7 @@ class ModalFormPanel extends React.PureComponent {
     }
 
     render() {
-        const { place, setModalPlaceData, onConfirmClick } = this.props
+        const { place, setModalPlaceData, onConfirmClick, skipKeys } = this.props
 
         return (
             <Pane
@@ -70,7 +70,7 @@ class ModalFormPanel extends React.PureComponent {
                 alignItems='center'
                 width='100%'
                 padding={ 10 }
-            >   
+            >
                 <Pane margin={ 0 } padding={ 0 } marginBottom={ 20 } width='100%'>
                     <Autocomplete
                         title='Places'
@@ -97,13 +97,12 @@ class ModalFormPanel extends React.PureComponent {
                     </Autocomplete>
                 </Pane>
 
-                <Pane margin={ 0 } padding={ 0 } width='100%'>
-                    <ModalForm
-                        place={ place }
-                        setModalPlaceData={ setModalPlaceData }
-                        onConfirmClick={ onConfirmClick }
-                    />
-                </Pane>
+                <ModalForm
+                    place={ place }
+                    setModalPlaceData={ setModalPlaceData }
+                    onConfirmClick={ onConfirmClick }
+                    skipKeys={ skipKeys }
+                />
             </Pane>
         )
     }
@@ -112,11 +111,13 @@ class ModalFormPanel extends React.PureComponent {
 ModalFormPanel.propTypes = {
     place: PropTypes.object,
     setModalPlaceData: PropTypes.func.isRequired,
-    onConfirmClick: PropTypes.func.isRequired
+    onConfirmClick: PropTypes.func.isRequired,
+    skipKeys: PropTypes.array
 }
 
 ModalFormPanel.defaultProps = {
-    place: null
+    place: null,
+    skipKeys: null
 }
 
 export default ModalFormPanel

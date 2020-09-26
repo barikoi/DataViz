@@ -48,7 +48,9 @@ const initialState = {
             vault: []
         },
         isUpdateModalOpen: false,
-        updateModalInputData: {}
+        isReToolModalOpen: false,
+        isAddPlaceModalOpen: false,
+        modalInputData: {}
     }
 };
 
@@ -184,12 +186,28 @@ export function appReducer(state=initialState, action) {
                     isUpdateModalOpen: action.payload.isUpdateModalOpen
                 }
             };
-        case ActionTypes.SET_UPDATE_MODAL_INPUT_DATA:
+        case ActionTypes.SET_IS_RETOOL_MODAL_OPEN:
             return {
                 ...state,
                 sidePanel: {
                     ...state.sidePanel,
-                    updateModalInputData: action.payload.updateModalInputData
+                    isReToolModalOpen: action.payload.isReToolModalOpen
+                }
+            };
+        case ActionTypes.SET_IS_ADD_PLACE_MODAL_OPEN:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    isAddPlaceModalOpen: action.payload.isAddPlaceModalOpen
+                }
+            };
+        case ActionTypes.SET_MODAL_INPUT_DATA:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    modalInputData: action.payload.modalInputData
                 }
             };
         default: return state;

@@ -21,7 +21,7 @@ class Modal extends React.Component {
     }
 
     // If place data is updated from reverse Geo or search select
-    setModalPlaceData = placeData => {
+    setModalPlaceData = (placeData) => {
         return new Promise(resolve => {
             const { place } = this.state
             const refinedPlace = replaceNullKeys(placeData)
@@ -31,11 +31,21 @@ class Modal extends React.Component {
                 this.setState({ place: { ...place, ...refinedPlace } })
 
             } else {
-                this.setState({ place: refinedPlace })
+                if(!placeData.uCode) {
+                    this.setState({ place: { ...refinedPlace, uCode: place.uCode } })
+
+                } else {
+                    this.setState({ place: refinedPlace })
+                }
             }
 
             resolve()
         })
+    }
+
+    // Reset Modal Data to Initial
+    handleResetModal = () => {
+        this.componentDidMount()
     }
 
     // Render Footer
@@ -51,15 +61,31 @@ class Modal extends React.Component {
                 justifyContent='center'
                 alignItems='center'
             >
-                <Button appearance='default' intent='danger' marginRight='auto'>Cancel</Button>
-                <Button appearance='default' intent='warning' marginRight={ 20 }>Reset</Button>
+                <Button
+                    appearance='default'
+                    intent='danger'
+                    marginRight='auto'
+                    onClick={ this.props.onCloseComplete }
+                >
+                    Cancel
+                </Button>
+
+                <Button
+                    appearance='default'
+                    intent='warning'
+                    marginRight={ 20 }
+                    onClick={ this.handleResetModal }
+                >
+                    Reset
+                </Button>
+
                 <Button
                     appearance='primary'
                     intent='success'
                     form='modal-form'
                     type='submit'
                 >
-                    { isConfirmLoading ? 'Loading...' : confirmLabel }
+                    { isConfirmLoading ? 'Processing...' : confirmLabel }
                 </Button>
             </Pane>
         )
@@ -90,7 +116,8 @@ class Modal extends React.Component {
             subType: place.subType,
             latitude: place.latitude,
             longitude: place.longitude,
-            private_public_flag: 1
+            private_public_flag: 1,
+            uCode: place.uCode
         }
 
         // Check for invalid values
@@ -106,7 +133,7 @@ class Modal extends React.Component {
 
     render() {
         const { place } = this.state
-        const { title, isModalShown, onCloseComplete, isConfirmLoading } = this.props
+        const { title, isModalShown, onCloseComplete, isConfirmLoading, skipKeys } = this.props
 
         return (
             <Dialog
@@ -139,6 +166,7 @@ class Modal extends React.Component {
                         place={ place }
                         setModalPlaceData={ this.setModalPlaceData }
                         onConfirmClick={ this.onConfirmClick }
+                        skipKeys={ skipKeys }
                     />
                 </Pane>
             </Dialog>
@@ -152,14 +180,16 @@ Modal.propTypes = {
     title: PropTypes.string,
     confirmLabel: PropTypes.string,
     onConfirm: PropTypes.func.isRequired,
-    place: PropTypes.object
+    place: PropTypes.object,
+    skipKeys: PropTypes.array
 }
 
 Modal.defaultProps = {
     place: null,
     isModalShown: false,
     title: 'Dialog',
-    confirmLabel: 'Confirm'
+    confirmLabel: 'Confirm',
+    skipKeys: null
 }
 
 export default Modal

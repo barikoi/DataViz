@@ -39,19 +39,21 @@ class CustomLayerHoverInfo extends React.Component {
     }
 
     buttonOnClickHandler = event => {
+        // Display Update Modal and pass point data to autofill
+        const { data, fields } = this.props;
+        const modalInputData = {};
+        fields.forEach((item, index) => {
+            modalInputData[item.name] = data[index];
+        });
+
         switch(event.target.name) {
             case 'reTool':
+                this.props.dispatch({ type: ActionTypes.SET_IS_RETOOL_MODAL_OPEN, payload: { isReToolModalOpen: true } });
+                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
                 break
             case 'update':
-                // Display Update Modal and pass point data to autofill
-                const { data, fields } = this.props;
-                const updateModalInputData = {};
-                fields.forEach((item, index) => {
-                    updateModalInputData[item.name] = data[index];
-                });
-
                 this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_UPDATE_MODAL_INPUT_DATA, payload: { updateModalInputData } });
+                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
                 break
             case 'delete':
                 break
@@ -112,7 +114,7 @@ class CustomLayerHoverInfo extends React.Component {
 
 const mapStateToProps = state => ({
     isUpdateModalOpen: state.app.sidePanel.isUpdateModalOpen,
-    updateModalInputData: state.app.sidePanel.updateModalInputData
+    modalInputData: state.app.sidePanel.modalInputData
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });

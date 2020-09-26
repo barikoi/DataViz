@@ -10,10 +10,11 @@ import Modal from './modal/Modal';
 
 // Import Actions
 import * as ActionTypes from '../store/actions/actionTypes';
-import { loadDataToMap } from '../store/actions/dataActions';
+import { loadDataToMap, updatePlace } from '../store/actions/dataActions';
 import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange, upadatePointRadiusWithMapZoom } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
 import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue, dispatchSetPolygonModal } from '../store/actions/dispatchActions';
+import Axios from 'axios';
 
 const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
@@ -199,17 +200,50 @@ class KeplerGlMap extends React.Component {
         // this.setState({ isModalShown: true })
     }
     
-    hideModal = () => {
+    // Hide Update Modal
+    hideUpdateModal = () => {
         // this.setState({ isModalShown: false, isModalConfirmLoading: false })
         this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
-        this.props.dispatch({ type: ActionTypes.SET_UPDATE_MODAL_INPUT_DATA, payload: { updateModalInputData: null } });
+        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
     }
 
-    onConfirmModal = place => {
+    // Hide ReTool Modal
+    hideReToolModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_RETOOL_MODAL_OPEN, payload: { isReToolModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
+    }
+
+    // Hide Add Place Modal
+    hideAddPlaceModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_ADD_PLACE_MODAL_OPEN, payload: { isAddPlaceModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
+    }
+
+    // Update Modal Confirm Function
+    onConfirmUpdateModal = place => {
+        this.props.dispatch( updatePlace(place) )
+        // setTimeout(() => {
+        //     console.log('Saved Changes from Update Modal.', place)
+        // }, 1000)
+    }
+
+    // Update Modal Confirm Function
+    onConfirmReToolModal = place => {
         //this.setState({ isModalConfirmLoading: true })
 
         setTimeout(() => {
-            console.log('Saved Changes from Modal.', place)
+            console.log('Saved Changes from ReTool Modal.', place)
+            // this.setState({ isModalConfirmLoading: false })
+            // this.hideModal()
+        }, 1000)
+    }
+
+    // Update Modal Confirm Function
+    onConfirmAddPlaceModal = place => {
+        //this.setState({ isModalConfirmLoading: true })
+
+        setTimeout(() => {
+            console.log('Saved Changes from Add Place Modal.', place)
             // this.setState({ isModalConfirmLoading: false })
             // this.hideModal()
         }, 1000)
@@ -217,7 +251,7 @@ class KeplerGlMap extends React.Component {
 
     render() {
         let { width, height } = this.props;
-        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, updateModalInputData} = this.props.app.sidePanel;
+        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, isReToolModalOpen, isAddPlaceModalOpen, modalInputData} = this.props.app.sidePanel;
         
         // Get Layer Data
         let { editor, layerData } = this.props.keplerGl.map ? this.props.keplerGl.map.visState : { editor: {}, layerData: {} };
@@ -246,22 +280,45 @@ class KeplerGlMap extends React.Component {
                     height={ height }
                 />
 
-                {
-                    isUpdateModalOpen &&
+                { isUpdateModalOpen &&
                     <Modal
                         isModalShown={ isUpdateModalOpen }
-                        onCloseComplete={ this.hideModal }
+                        onCloseComplete={ this.hideUpdateModal }
                         title='Update Place'
                         confirmLabel='Update'
-                        onConfirm={ this.onConfirmModal }
-                        //isConfirmLoading={ isModalConfirmLoading }
-                        place={ updateModalInputData }
+                        onConfirm={ this.onConfirmUpdateModal }
+                        // isConfirmLoading={ isModalConfirmLoading }
+                        place={ modalInputData }
                     />
                     // <UpdateModal
                     //     closeModal={ this.closeModal }
                     //     handleModalData={ this.handleModalDataSubmit }
                     //     updateModalInputData={ updateModalInputData }
                     // />
+                }
+
+                { isReToolModalOpen &&
+                    <Modal
+                        isModalShown={ isReToolModalOpen }
+                        onCloseComplete={ this.hideReToolModal }
+                        title='Re-Tool Place'
+                        confirmLabel='Re-Tool'
+                        onConfirm={ this.onConfirmReToolModal }
+                        // isConfirmLoading={ isModalConfirmLoading }
+                        place={ modalInputData }
+                    />
+                }
+
+                { isAddPlaceModalOpen &&
+                    <Modal
+                        isModalShown={ isAddPlaceModalOpen }
+                        onCloseComplete={ this.hideAddPlaceModal }
+                        title='Add Place'
+                        confirmLabel='Add'
+                        onConfirm={ this.onConfirmAddPlaceModal }
+                        // isConfirmLoading={ isModalConfirmLoading }
+                        place={ modalInputData }
+                    />
                 }
 
                 {

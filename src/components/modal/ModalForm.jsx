@@ -76,17 +76,16 @@ class ModalForm extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         const { pType, subType, pTypeList, subTypeList } = this.state
-        const { place } = this.props
+        const { place, skipKeys } = this.props
         
         // If place props changes
         if((!prevProps.place && place)
             || (place && prevProps.place && prevProps.place.uCode !== place.uCode)
             || (place && prevProps.place && prevProps.place.latitude !== place.latitude)
             || (place && prevProps.place && prevProps.place.longitude !== place.longitude)) {
-            console.log('Place Prop Changed')
 
             // Filter input Props
-            let filteredProps = filterPlaceProp(place, this.state)
+            const filteredProps = filterPlaceProp(place, this.state, skipKeys)
             this.setState({ ...INITIAL_STATE, pTypeList, subTypeList, ...filteredProps })
         }
 
@@ -96,7 +95,6 @@ class ModalForm extends React.PureComponent {
                 // If pType empty
                 this.setState({ subType: '', subTypeList: [] })
             } else {
-                console.log('pType State Changed')
                 // Fetch subTypeList based on pType and filtered subType if parent pType is removed
                 fetchSubTypeListForPType(pType, subType)
                     .then(res => {
@@ -222,7 +220,9 @@ class ModalForm extends React.PureComponent {
         })
 
         // Add newSubType to subType
-        filteredValues.subType += ', ' + this.state.newSubType
+        if(this.state.newSubType) {
+            filteredValues.subType += ', ' + this.state.newSubType
+        }
 
         return filteredValues
     }
@@ -235,7 +235,6 @@ class ModalForm extends React.PureComponent {
                 <TextInputField
                     name='Address'
                     label='Address'
-                    placeholder='Address...'
                     disabled={ true }
                     width='100%'
                     value={ Address ? Address : '' }
@@ -243,147 +242,161 @@ class ModalForm extends React.PureComponent {
                     gridColumn='1/7'
                     isInvalid={ error.Address ? true : false }
                     validationMessage={ error.Address ? error.Address : null }
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='business_name'
                     label='Name'
-                    placeholder='Name...'
                     width='100%'
                     value={ business_name ? business_name : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='place_name'
                     label='Building/Market'
-                    placeholder='Building/Market...'
                     width='100%'
                     value={ place_name ? place_name : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='holding_number'
                     label='Holding'
-                    placeholder='Holding...'
                     width='100%'
                     value={ holding_number ? holding_number : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/3'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='road_name_number'
                     label='Road'
-                    placeholder='Road...'
                     width='100%'
                     value={ road_name_number ? road_name_number : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='3/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='super_sub_area'
                     label='Super Sub Area'
-                    placeholder='Super Sub Area...'
                     width='100%'
                     value={ super_sub_area ? super_sub_area : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/3'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='sub_area'
                     label='Sub Area'
-                    placeholder='Sub Area...'
                     width='100%'
                     value={ sub_area ? sub_area : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='3/5'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='area'
                     label='Area'
-                    placeholder='Area...'
                     width='100%'
                     value={ area ? area : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='5/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='city'
                     label='City'
-                    placeholder='City...'
                     width='100%'
                     value={ city ? city : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/3'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='postCode'
                     label='Post Code'
-                    placeholder='Post Code...'
                     width='100%'
                     value={ postCode ? postCode : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='3/5'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='thana'
                     label='Thana'
-                    placeholder='Thana...'
                     width='100%'
                     value={ thana ? thana : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='5/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='district'
                     label='District'
-                    placeholder='District...'
                     width='100%'
                     value={ district ? district : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/3'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='sub_district'
                     label='Sub District'
-                    placeholder='Sub District...'
                     width='100%'
                     value={ sub_district ? sub_district : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='3/5'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
+                    type='search'
                     name='unions'
                     label='Unions'
-                    placeholder='Unions...'
                     width='100%'
                     value={ unions ? unions : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='5/7'
+                    marginBottom={ 8 }
                 />
 
                 <TextInputField
                     type='number'
                     name='popularity_ranking'
                     label='Popularity Ranking'
-                    placeholder='Popularity Ranking...'
                     width='100%'
                     value={ popularity_ranking ? popularity_ranking : '' }
                     onChange={ this.handleOnChange }
                     gridColumn='1/3'
+                    marginBottom={ 8 }
                 />
 
                 <Pane
@@ -394,11 +407,12 @@ class ModalForm extends React.PureComponent {
                     <Heading size={ 400 } marginBottom={ 4 } >Upload Images</Heading>
                     <FilePicker
                         name='images'
-                        placeholder='Upload Images...'
+                        placeholder=''
                         multiple={ true }
                         accept='image/*'
                         width={ 0 }
                         onChange={ this.handleImageUploadOnChange }
+                        marginBottom={ 8 }
                     />
                 </Pane>
 
@@ -510,11 +524,13 @@ const reactSelectStyles = {
 ModalForm.propTypes = {
     place: PropTypes.object,
     setModalPlaceData: PropTypes.func.isRequired,
-    onConfirmClick: PropTypes.func.isRequired
+    onConfirmClick: PropTypes.func.isRequired,
+    skipKeys: PropTypes.array
 }
 
 ModalForm.defaultProps = {
-    place: null
+    place: null,
+    skipKeys: null
 }
 
 export default ModalForm
