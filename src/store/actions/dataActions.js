@@ -84,7 +84,6 @@ export function updatePlace(place) {
     return (dispatch) => {
         let { uCode } = place
         delete place.uCode
-        delete place.private_public_flag
 
         if(place) {
             axios.post(UPDATE_PLACE_API + uCode, { ...place })
