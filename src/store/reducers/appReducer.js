@@ -49,8 +49,11 @@ const initialState = {
         },
         isUpdateModalOpen: false,
         isReToolModalOpen: false,
-        isAddPlaceModalOpen: false,
-        modalInputData: {}
+        isDeleteModalOpen: false,
+        isToVaultModalOpen: false,
+        isToPlaceModalOpen: false,
+        modalInputData: {},
+        layerDataId: ''
     }
 };
 
@@ -194,20 +197,44 @@ export function appReducer(state=initialState, action) {
                     isReToolModalOpen: action.payload.isReToolModalOpen
                 }
             };
-        case ActionTypes.SET_IS_ADD_PLACE_MODAL_OPEN:
-            return {
-                ...state,
-                sidePanel: {
-                    ...state.sidePanel,
-                    isAddPlaceModalOpen: action.payload.isAddPlaceModalOpen
-                }
-            };
         case ActionTypes.SET_MODAL_INPUT_DATA:
             return {
                 ...state,
                 sidePanel: {
                     ...state.sidePanel,
                     modalInputData: action.payload.modalInputData
+                }
+            };
+        case ActionTypes.SET_LAYER_DATA_ID:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    layerDataId: action.payload.layerDataId
+                }
+            };
+        case ActionTypes.SET_IS_DELETE_MODAL_OPEN:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    isDeleteModalOpen: action.payload.isDeleteModalOpen
+                }
+            };
+        case ActionTypes.SET_IS_TO_VAULT_MODAL_OPEN:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    isToVaultModalOpen: action.payload.isToVaultModalOpen
+                }
+            };
+        case ActionTypes.SET_IS_TO_PLACE_MODAL_OPEN:
+            return {
+                ...state,
+                sidePanel: {
+                    ...state.sidePanel,
+                    isToPlaceModalOpen: action.payload.isToPlaceModalOpen
                 }
             };
         default: return state;

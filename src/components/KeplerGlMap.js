@@ -7,23 +7,18 @@ import KeplerSidePanel from './KeplerSidePanel';
 import PointsInPolygonModal from './PointsInPolygonModal';
 import Draggable from 'react-draggable';
 import Modal from './modal/Modal';
+import ConfirmModal from './modal/ConfirmModal';
 
 // Import Actions
 import * as ActionTypes from '../store/actions/actionTypes';
-import { loadDataToMap, updatePlace } from '../store/actions/dataActions';
+import { loadDataToMap, updateBirdsEyePlace, updateVaultPlace, deleteBirdsEyePlace, deleteVaultPlace, moveToPlaces, movePlaceToVault, reToolToPlaces, reToolToVault } from '../store/actions/dataActions';
 import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange, upadatePointRadiusWithMapZoom } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
 import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue, dispatchSetPolygonModal } from '../store/actions/dispatchActions';
-import Axios from 'axios';
 
 const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
 class KeplerGlMap extends React.Component {
-    state = {
-        isModalShown: true,
-        isModalConfirmLoading: false
-    }
-
     componentDidMount() {
         // Load Data To Map
         this.props.dispatch( loadDataToMap() );
@@ -184,74 +179,120 @@ class KeplerGlMap extends React.Component {
         this.props.dispatch( dispatchSetPolygonModal(false) );
     }
 
-    // Update Modal
-    // closeModal = () => {
-    //     this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
-    // }
-
-    // handleModalDataSubmit = data => {
-    //     console.log('Update Modal Submitted Data', data);
-    // }
-
     //////////////////////////
     // Modal Funtionalities //
     //////////////////////////
-    showModal = () => {
-        // this.setState({ isModalShown: true })
-    }
     
     // Hide Update Modal
     hideUpdateModal = () => {
-        // this.setState({ isModalShown: false, isModalConfirmLoading: false })
         this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: '' } });
         this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
     }
 
     // Hide ReTool Modal
     hideReToolModal = () => {
         this.props.dispatch({ type: ActionTypes.SET_IS_RETOOL_MODAL_OPEN, payload: { isReToolModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: '' } });
         this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
     }
 
-    // Hide Add Place Modal
-    hideAddPlaceModal = () => {
-        this.props.dispatch({ type: ActionTypes.SET_IS_ADD_PLACE_MODAL_OPEN, payload: { isAddPlaceModalOpen: false } });
+    // Hide Delete Modal
+    hideDeleteModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_DELETE_MODAL_OPEN, payload: { isDeleteModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: '' } });
+        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
+    }
+
+    // Hide To Vault Modal
+    hideToVaultModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_TO_VAULT_MODAL_OPEN, payload: { isToVaultModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: '' } });
+        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
+    }
+
+    // Hide To Place Modal
+    hideToPlaceModal = () => {
+        this.props.dispatch({ type: ActionTypes.SET_IS_TO_PLACE_MODAL_OPEN, payload: { isToPlaceModalOpen: false } });
+        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: '' } });
         this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData: null } });
     }
 
     // Update Modal Confirm Function
     onConfirmUpdateModal = place => {
-        this.props.dispatch( updatePlace(place) )
-        // setTimeout(() => {
-        //     console.log('Saved Changes from Update Modal.', place)
-        // }, 1000)
+        const { layerDataId } = this.props.app.sidePanel
+        
+        // If confirmed from Birds-eye point layer
+        if(layerDataId === 'birds_eye_point_data') {
+            console.log('Handle Birds-eye Update:', place)
+            this.props.dispatch( updateBirdsEyePlace(place) )
+            this.hideUpdateModal()
+
+        } else if(layerDataId === 'vault_point_data') {
+            // If confirmed from Vault point layer
+            console.log('Handle Vault Update:', place)
+            this.props.dispatch( updateVaultPlace(place) )
+            this.hideUpdateModal()
+        }
     }
 
-    // Update Modal Confirm Function
+    // Re-Tool Modal Confirm Function
     onConfirmReToolModal = place => {
-        //this.setState({ isModalConfirmLoading: true })
+        const { layerDataId } = this.props.app.sidePanel
+        
+        // If confirmed from Birds-eye point layer
+        if(layerDataId === 'birds_eye_point_data') {
+            console.log('Handle Birds-eye Re-Tool:', place)
+            this.props.dispatch( reToolToPlaces(place) )
+            this.hideReToolModal()
 
-        setTimeout(() => {
-            console.log('Saved Changes from ReTool Modal.', place)
-            // this.setState({ isModalConfirmLoading: false })
-            // this.hideModal()
-        }, 1000)
+        } else if(layerDataId === 'vault_point_data') {
+            // If confirmed from Vault point layer
+            console.log('Handle Vault Re-Tool:', place)
+            this.props.dispatch( reToolToVault(place) )
+            this.hideReToolModal()
+        }
     }
 
-    // Update Modal Confirm Function
-    onConfirmAddPlaceModal = place => {
-        //this.setState({ isModalConfirmLoading: true })
+    // Delete Modal Confirm Function
+    onConfirmDeleteModal = () => {
+        const { layerDataId, modalInputData } = this.props.app.sidePanel
+        
+        // If confirmed from Birds-eye point layer
+        if(layerDataId === 'birds_eye_point_data') {
+            console.log('Handle Birds-eye Delete:', modalInputData)
+            this.props.dispatch( deleteBirdsEyePlace(modalInputData.uCode) )
+            this.hideDeleteModal()
 
-        setTimeout(() => {
-            console.log('Saved Changes from Add Place Modal.', place)
-            // this.setState({ isModalConfirmLoading: false })
-            // this.hideModal()
-        }, 1000)
+        } else if(layerDataId === 'vault_point_data') {
+            // If confirmed from Vault point layer
+            console.log('Handle Vault Delete:', modalInputData)
+            this.props.dispatch( deleteVaultPlace(modalInputData.uCode) )
+            this.hideDeleteModal()
+        }
+    }
+
+    // To Vault Modal Confirm Function
+    onConfirmToVaultModal = () => {
+        const { modalInputData } = this.props.app.sidePanel
+
+        console.log('Handle Birds-eye To-Vault:', modalInputData)
+        this.props.dispatch( movePlaceToVault(modalInputData.uCode, modalInputData.task_id) )
+        this.hideToVaultModal()
+    }
+
+    // To Place Modal Confirm Function
+    onConfirmToPlaceModal = () => {
+        const { modalInputData } = this.props.app.sidePanel
+
+        console.log('Handle Vault To-Place:', modalInputData)
+        this.props.dispatch( moveToPlaces(modalInputData.uCode) )
+        this.hideToPlaceModal()
     }
 
     render() {
         let { width, height } = this.props;
-        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, isReToolModalOpen, isAddPlaceModalOpen, modalInputData} = this.props.app.sidePanel;
+        let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, isReToolModalOpen, isDeleteModalOpen, isToVaultModalOpen, isToPlaceModalOpen, modalInputData } = this.props.app.sidePanel;
         
         // Get Layer Data
         let { editor, layerData } = this.props.keplerGl.map ? this.props.keplerGl.map.visState : { editor: {}, layerData: {} };
@@ -287,14 +328,8 @@ class KeplerGlMap extends React.Component {
                         title='Update Place'
                         confirmLabel='Update'
                         onConfirm={ this.onConfirmUpdateModal }
-                        // isConfirmLoading={ isModalConfirmLoading }
                         place={ modalInputData }
                     />
-                    // <UpdateModal
-                    //     closeModal={ this.closeModal }
-                    //     handleModalData={ this.handleModalDataSubmit }
-                    //     updateModalInputData={ updateModalInputData }
-                    // />
                 }
 
                 { isReToolModalOpen &&
@@ -304,20 +339,43 @@ class KeplerGlMap extends React.Component {
                         title='Re-Tool Place'
                         confirmLabel='Re-Tool'
                         onConfirm={ this.onConfirmReToolModal }
-                        // isConfirmLoading={ isModalConfirmLoading }
                         place={ modalInputData }
                     />
                 }
 
-                { isAddPlaceModalOpen &&
-                    <Modal
-                        isModalShown={ isAddPlaceModalOpen }
-                        onCloseComplete={ this.hideAddPlaceModal }
-                        title='Add Place'
-                        confirmLabel='Add'
-                        onConfirm={ this.onConfirmAddPlaceModal }
-                        // isConfirmLoading={ isModalConfirmLoading }
+                { isDeleteModalOpen &&
+                    <ConfirmModal
+                        isModalShown={ isDeleteModalOpen }
+                        onCloseComplete={ this.hideDeleteModal }
+                        title='Delete Place'
+                        confirmLabel='Delete'
+                        onConfirm={ this.onConfirmDeleteModal }
                         place={ modalInputData }
+                        modalContent='Are you sure you want to Delete this place?'
+                    />
+                }
+
+                { isToVaultModalOpen &&
+                    <ConfirmModal
+                        isModalShown={ isToVaultModalOpen }
+                        onCloseComplete={ this.hideToVaultModal }
+                        title='To Vault Action'
+                        confirmLabel='To Vault'
+                        onConfirm={ this.onConfirmToVaultModal }
+                        place={ modalInputData }
+                        modalContent='Are you sure you want to Vault this place?'
+                    />
+                }
+
+                { isToPlaceModalOpen &&
+                    <ConfirmModal
+                        isModalShown={ isToPlaceModalOpen }
+                        onCloseComplete={ this.hideToPlaceModal }
+                        title='To Place Action'
+                        confirmLabel='To Place'
+                        onConfirm={ this.onConfirmToPlaceModal }
+                        place={ modalInputData }
+                        modalContent='Are you sure you want to Add this place?'
                     />
                 }
 

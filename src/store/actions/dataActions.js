@@ -2,7 +2,8 @@ import { wrapTo, addDataToMap, updateMap, setFilter } from 'kepler.gl/actions';
 import { processRowObject } from 'kepler.gl/processors';
 import { fetchDataFromAPI } from './actionUtils';
 import * as ActionTypes from './actionTypes';
-import axios from 'axios'
+import axios from 'axios';
+import { toaster } from 'evergreen-ui';
 
 // Import initial Map Config
 import initialMapConfig from '../../configs/birds_eye_vault_data_initial_config.json';
@@ -17,7 +18,14 @@ const defaultZoom = 6.519345239926352;
 const defaultLatLong = { lat: 23.86012585824617, lng: 88.54398598131883 };
 
 // API URLS
-const UPDATE_PLACE_API = '/auth/place/update/IEEL6473'
+const UPDATE_BIRDS_EYE_PLACE_API = '/auth/place/update/'
+const UPDATE_VAULT_PLACE_API = '/place/vault/'
+const DELETE_BIRDS_EYE_PLACE_API = '/place/delete/'
+const DELETE_VAULT_PLACE_API = '/delete/from/vault/'
+const MOVE_TO_PLACES_API = '/move/to/places/'
+const MOVE_TO_VAULT_API = '/move/to/vault/'
+const RE_TOOL_TO_PLACES_API = '/test/auth/place/newplace/mapper'
+const RE_TOOL_TO_VAULT_API = '/auth/place/newplace/mapper/vault'
 
 export function loadDataToMap() {
     return (dispatch, getState) => {
@@ -79,18 +87,136 @@ export function loadDataToMap() {
     }
 }
 
+////////////////////////////////
+// Place Data CRUD Operations //
+////////////////////////////////
+
 // Update Place Data from Call-to-action Modal
-export function updatePlace(place) {
-    return (dispatch) => {
+export function updateBirdsEyePlace(place) {
+    return () => {
         let { uCode } = place
         delete place.uCode
 
         if(place) {
-            axios.post(UPDATE_PLACE_API + uCode, { ...place })
+            axios.post(UPDATE_BIRDS_EYE_PLACE_API + uCode, { ...place })
                 .then(res => {
-                    console.log(res)
+                    console.log('Successfully updated to Places!', res)
+                    toaster.success('Successfully updated to Places!')
                 })
-                .catch(err => console.error(err))
+                .catch(err => {
+                    console.error(err)
+                    toaster.danger('Error occured!')
+                })
         }
+    }
+}
+
+// Update Vault Place Data
+export function updateVaultPlace(place) {
+    return () => {
+        let { uCode } = place
+        delete place.uCode
+
+        if(place) {
+            axios.post(UPDATE_VAULT_PLACE_API + uCode + '/update', { ...place })
+                .then(res => {
+                    console.log('Successfully updated to Vault!', res)
+                    toaster.success('Successfully updated to Vault!')
+                })
+                .catch(err => {
+                    console.error(err)
+                    toaster.danger('Error occured!')
+                })
+        }
+    }
+}
+
+// Delete Birds Eye Place
+export function deleteBirdsEyePlace(uCode) {
+    return () => {
+        axios.get(DELETE_BIRDS_EYE_PLACE_API + uCode)
+            .then(res => {
+                console.log('Successfully deleted from Places!', res)
+                toaster.success('Successfully deleted from Places!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
+    }
+}
+
+// Delete Vault Place
+export function deleteVaultPlace(uCode) {
+    return () => {
+        axios.delete(DELETE_VAULT_PLACE_API + uCode)
+            .then(res => {
+                console.log('Successfully deleted from Vault!', res)
+                toaster.success('Successfully deleted from Vault!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
+    }
+}
+
+// Move place from Vault to Birds eye
+export function moveToPlaces(uCode) {
+    return () => {
+        axios.get(MOVE_TO_PLACES_API + uCode)
+            .then(res => {
+                console.log('Successfully moved to Places!', res)
+                toaster.success('Successfully moved to Places!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
+    }
+}
+
+// Move place to Vault
+export function movePlaceToVault(uCode, taskId=0) {
+    return () => {
+        axios.post(MOVE_TO_VAULT_API + uCode + '/' + taskId)
+            .then(res => {
+                console.log('Successfully moved to Vault!', res)
+                toaster.success('Successfully moved to Vault!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
+    }
+}
+
+// Re-Tool to Places
+export function reToolToPlaces(place) {
+    return () => {
+        axios.post(RE_TOOL_TO_PLACES_API, { ...place })
+            .then(res => {
+                console.log('Successfully re-tooled to Places!', res)
+                toaster.success('Successfully re-tooled to Places!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
+    }
+}
+
+// Re-Tool to Vault
+export function reToolToVault(place) {
+    return () => {
+        axios.post(RE_TOOL_TO_VAULT_API, { ...place })
+            .then(res => {
+                console.log('Successfully re-tooled to Vault!', res)
+                toaster.success('Successfully re-tooled to Vault!')
+            })
+            .catch(err => {
+                console.error(err)
+                toaster.danger('Error occured!')
+            })
     }
 }
