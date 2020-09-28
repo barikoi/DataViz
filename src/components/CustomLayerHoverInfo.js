@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import './css/CustomLayerHoverInfoStyles.css';
 
 import * as ActionTypes from '../store/actions/actionTypes';
+import axios from 'axios';
+
+let UCODE_GET_API = ''
 
 class CustomLayerHoverInfo extends React.Component {
     state = {
@@ -47,41 +50,53 @@ class CustomLayerHoverInfo extends React.Component {
         // Display Update Modal and pass point data to autofill
         const { data, fields } = this.props;
         const { dataId } = this.props.layer.config;
+        const uCode = data[fields.findIndex(el => el.name === 'uCode')]
+        const buttonName = event.target.name
 
-        const modalInputData = {};
-        fields.forEach((item, index) => {
-            modalInputData[item.name] = data[index];
-        });
+        // Set which API to call
+        if(dataId === 'birds_eye_point_data') {
+            UCODE_GET_API = '/place/' + uCode
 
-        switch(event.target.name) {
-            case 'reTool':
-                this.props.dispatch({ type: ActionTypes.SET_IS_RETOOL_MODAL_OPEN, payload: { isReToolModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
-                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
-                return
-            case 'update':
-                this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
-                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
-                return
-            case 'delete':
-                this.props.dispatch({ type: ActionTypes.SET_IS_DELETE_MODAL_OPEN, payload: { isDeleteModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
-                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
-                return
-            case 'toVault':
-                this.props.dispatch({ type: ActionTypes.SET_IS_TO_VAULT_MODAL_OPEN, payload: { isToVaultModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
-                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
-                return
-            case 'toPlace':
-                this.props.dispatch({ type: ActionTypes.SET_IS_TO_PLACE_MODAL_OPEN, payload: { isToPlaceModalOpen: true } });
-                this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
-                this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
-                return
-            default:
-                return
+        } else if(dataId === 'vault_point_data') {
+            UCODE_GET_API = '/new/get/vault/data/' + uCode
         }
+
+        // Get All info through uCode API
+        axios.get(UCODE_GET_API)
+            .then(res => {
+                const modalInputData = res.data
+
+                switch(buttonName) {
+                    case 'reTool':
+                        this.props.dispatch({ type: ActionTypes.SET_IS_RETOOL_MODAL_OPEN, payload: { isReToolModalOpen: true } });
+                        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
+                        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
+                        return
+                    case 'update':
+                        this.props.dispatch({ type: ActionTypes.SET_IS_UPDATE_MODAL_OPEN, payload: { isUpdateModalOpen: true } });
+                        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
+                        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
+                        return
+                    case 'delete':
+                        this.props.dispatch({ type: ActionTypes.SET_IS_DELETE_MODAL_OPEN, payload: { isDeleteModalOpen: true } });
+                        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
+                        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
+                        return
+                    case 'toVault':
+                        this.props.dispatch({ type: ActionTypes.SET_IS_TO_VAULT_MODAL_OPEN, payload: { isToVaultModalOpen: true } });
+                        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
+                        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
+                        return
+                    case 'toPlace':
+                        this.props.dispatch({ type: ActionTypes.SET_IS_TO_PLACE_MODAL_OPEN, payload: { isToPlaceModalOpen: true } });
+                        this.props.dispatch({ type: ActionTypes.SET_LAYER_DATA_ID, payload: { layerDataId: dataId } });
+                        this.props.dispatch({ type: ActionTypes.SET_MODAL_INPUT_DATA, payload: { modalInputData } });
+                        return
+                    default:
+                        return
+                }
+            })
+            .catch(err => console.error(err))
     }
 
     render() {

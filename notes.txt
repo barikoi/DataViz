@@ -1,0 +1,2 @@
+** For RE-Tool Submit, Add place.. don't bind empty fields
+** For Update Submit, bind empty fields if exists

@@ -30,7 +30,7 @@ export function fetchDataFromAPI() {
     const vaultDataParams = { dateFrom, dateTill };
 
     return axios.all([
-        axios.get(BIRDS_EYE_DATA_API_URL, { params: birdsEyeDataParams }),
+        axios.get(BIRDS_EYE_DATA_API_URL, { params: { dateFrom: '2020-09-27', dateTill: '2020-09-29' } }),
         axios.get(VAULT_DATA_API_URL)
     ])
     .then(axios.spread((result1, result2) => {

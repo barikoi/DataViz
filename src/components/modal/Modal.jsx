@@ -20,6 +20,16 @@ class Modal extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { place } = this.props
+
+        // If Place props changes from null to valid
+        if(!prevProps.place && place) {
+            const refinedPlace = replaceNullKeys(place)
+            this.setState({ place: refinedPlace })
+        }
+    }
+
     // If place data is updated from reverse Geo or search select
     setModalPlaceData = (placeData) => {
         return new Promise(resolve => {
@@ -111,7 +121,6 @@ class Modal extends React.Component {
             sub_district: place.sub_district,
             unions: place.unions,
             popularity_ranking: place.popularity_ranking,
-            images: place.images,
             pType: place.pType,
             subType: place.subType,
             latitude: place.latitude,
@@ -119,13 +128,6 @@ class Modal extends React.Component {
             private_public_flag: 1,
             uCode: place.uCode
         }
-
-        // Check for invalid values
-        Object.keys(submittablePlaceData).forEach(key => {
-            if(!submittablePlaceData[key]) {
-                delete submittablePlaceData[key]
-            }
-        })
 
         // Call Props onConfirm to pass modal data
         this.props.onConfirm(submittablePlaceData)
@@ -157,8 +159,8 @@ class Modal extends React.Component {
                     alignItems='flex-start'
                 >
                     <ModalMapPanel
-                        latitude={ place ? place.latitude : null }
-                        longitude={ place ? place.longitude : null }
+                        latitude={ place && place.latitude ? place.latitude : null }
+                        longitude={ place && place.longitude ? place.longitude : null }
                         setModalPlaceData={ this.setModalPlaceData }
                     />
 

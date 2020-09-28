@@ -239,6 +239,13 @@ class KeplerGlMap extends React.Component {
     // Re-Tool Modal Confirm Function
     onConfirmReToolModal = place => {
         const { layerDataId } = this.props.app.sidePanel
+
+        // Check for invalid values
+        Object.keys(place).forEach(key => {
+            if(!place[key]) {
+                delete place[key]
+            }
+        })
         
         // If confirmed from Birds-eye point layer
         if(layerDataId === 'birds_eye_point_data') {

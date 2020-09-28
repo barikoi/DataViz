@@ -52,7 +52,7 @@ const initialState = {
         isDeleteModalOpen: false,
         isToVaultModalOpen: false,
         isToPlaceModalOpen: false,
-        modalInputData: {},
+        modalInputData: null,
         layerDataId: ''
     }
 };
