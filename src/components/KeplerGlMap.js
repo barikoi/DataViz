@@ -224,13 +224,11 @@ class KeplerGlMap extends React.Component {
         
         // If confirmed from Birds-eye point layer
         if(layerDataId === 'birds_eye_point_data') {
-            console.log('Handle Birds-eye Update:', place)
             this.props.dispatch( updateBirdsEyePlace(place) )
             this.hideUpdateModal()
 
         } else if(layerDataId === 'vault_point_data') {
             // If confirmed from Vault point layer
-            console.log('Handle Vault Update:', place)
             this.props.dispatch( updateVaultPlace(place) )
             this.hideUpdateModal()
         }
@@ -249,13 +247,11 @@ class KeplerGlMap extends React.Component {
         
         // If confirmed from Birds-eye point layer
         if(layerDataId === 'birds_eye_point_data') {
-            console.log('Handle Birds-eye Re-Tool:', place)
             this.props.dispatch( reToolToPlaces(place) )
             this.hideReToolModal()
 
         } else if(layerDataId === 'vault_point_data') {
             // If confirmed from Vault point layer
-            console.log('Handle Vault Re-Tool:', place)
             this.props.dispatch( reToolToVault(place) )
             this.hideReToolModal()
         }
@@ -267,13 +263,11 @@ class KeplerGlMap extends React.Component {
         
         // If confirmed from Birds-eye point layer
         if(layerDataId === 'birds_eye_point_data') {
-            console.log('Handle Birds-eye Delete:', modalInputData)
             this.props.dispatch( deleteBirdsEyePlace(modalInputData.uCode) )
             this.hideDeleteModal()
 
         } else if(layerDataId === 'vault_point_data') {
             // If confirmed from Vault point layer
-            console.log('Handle Vault Delete:', modalInputData)
             this.props.dispatch( deleteVaultPlace(modalInputData.uCode) )
             this.hideDeleteModal()
         }
@@ -283,7 +277,6 @@ class KeplerGlMap extends React.Component {
     onConfirmToVaultModal = () => {
         const { modalInputData } = this.props.app.sidePanel
 
-        console.log('Handle Birds-eye To-Vault:', modalInputData)
         this.props.dispatch( movePlaceToVault(modalInputData.uCode, modalInputData.task_id) )
         this.hideToVaultModal()
     }
@@ -292,7 +285,6 @@ class KeplerGlMap extends React.Component {
     onConfirmToPlaceModal = () => {
         const { modalInputData } = this.props.app.sidePanel
 
-        console.log('Handle Vault To-Place:', modalInputData)
         this.props.dispatch( moveToPlaces(modalInputData.uCode) )
         this.hideToPlaceModal()
     }

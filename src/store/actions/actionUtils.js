@@ -30,13 +30,13 @@ export function fetchDataFromAPI() {
     const vaultDataParams = { dateFrom, dateTill };
 
     return axios.all([
-        axios.get(BIRDS_EYE_DATA_API_URL, { params: { dateFrom: '2020-09-27', dateTill: '2020-09-29' } }),
+        axios.get(BIRDS_EYE_DATA_API_URL, { params: birdsEyeDataParams }),
         axios.get(VAULT_DATA_API_URL)
     ])
     .then(axios.spread((result1, result2) => {
         // Parse user_id to string
-        result1.data.Message = parseUserIdToString(result1.data.Message);
-        result2.data.Data = parseUserIdToString(result2.data.Data);
+        result1.data.Message = parseFieldsToString(result1.data.Message);
+        result2.data.Data = parseFieldsToString(result2.data.Data);
 
         return {
             birdsEyeData: result1.data.Message || {},
@@ -48,10 +48,11 @@ export function fetchDataFromAPI() {
     });
 }
 
-// Parse user_id column to strings
-function parseUserIdToString(data) {
+// Parse user_id column to strings and add created_date as String
+function parseFieldsToString(data) {
     data.forEach(item => {
         item.user_id = 'U-' + item.user_id;
+        item.created_date = 'Date-' + item.created_at.slice(0, 10);
     });
 
     return data;

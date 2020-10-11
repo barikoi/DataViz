@@ -8,7 +8,6 @@ export function isArrayEqual(array1, array2) {
     let flag = true
     array1.forEach(item => {
         if(!array2.includes(item)) {
-        		console.log('Not included')
             flag = false
         }
     })

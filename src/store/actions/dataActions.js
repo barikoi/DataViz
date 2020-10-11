@@ -100,7 +100,6 @@ export function updateBirdsEyePlace(place) {
         if(place) {
             axios.post(UPDATE_BIRDS_EYE_PLACE_API + uCode, { ...place })
                 .then(res => {
-                    console.log('Successfully updated to Places!', res)
                     toaster.success('Successfully updated to Places!')
                 })
                 .catch(err => {
@@ -120,7 +119,6 @@ export function updateVaultPlace(place) {
         if(place) {
             axios.post(UPDATE_VAULT_PLACE_API + uCode + '/update', { ...place })
                 .then(res => {
-                    console.log('Successfully updated to Vault!', res)
                     toaster.success('Successfully updated to Vault!')
                 })
                 .catch(err => {
@@ -136,7 +134,6 @@ export function deleteBirdsEyePlace(uCode) {
     return () => {
         axios.get(DELETE_BIRDS_EYE_PLACE_API + uCode)
             .then(res => {
-                console.log('Successfully deleted from Places!', res)
                 toaster.success('Successfully deleted from Places!')
             })
             .catch(err => {
@@ -151,7 +148,6 @@ export function deleteVaultPlace(uCode) {
     return () => {
         axios.delete(DELETE_VAULT_PLACE_API + uCode)
             .then(res => {
-                console.log('Successfully deleted from Vault!', res)
                 toaster.success('Successfully deleted from Vault!')
             })
             .catch(err => {
@@ -166,7 +162,6 @@ export function moveToPlaces(uCode) {
     return () => {
         axios.get(MOVE_TO_PLACES_API + uCode)
             .then(res => {
-                console.log('Successfully moved to Places!', res)
                 toaster.success('Successfully moved to Places!')
             })
             .catch(err => {
@@ -181,7 +176,6 @@ export function movePlaceToVault(uCode, taskId=0) {
     return () => {
         axios.post(MOVE_TO_VAULT_API + uCode + '/' + taskId)
             .then(res => {
-                console.log('Successfully moved to Vault!', res)
                 toaster.success('Successfully moved to Vault!')
             })
             .catch(err => {
@@ -196,7 +190,6 @@ export function reToolToPlaces(place) {
     return () => {
         axios.post(RE_TOOL_TO_PLACES_API, { ...place })
             .then(res => {
-                console.log('Successfully re-tooled to Places!', res)
                 toaster.success('Successfully re-tooled to Places!')
             })
             .catch(err => {
@@ -211,7 +204,6 @@ export function reToolToVault(place) {
     return () => {
         axios.post(RE_TOOL_TO_VAULT_API, { ...place })
             .then(res => {
-                console.log('Successfully re-tooled to Vault!', res)
                 toaster.success('Successfully re-tooled to Vault!')
             })
             .catch(err => {

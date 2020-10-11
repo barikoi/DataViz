@@ -6,7 +6,6 @@ import CheckboxMenu from './CheckboxMenu';
 import Spinner from './Spinner';
 
 class SidePanelBody extends React.Component {
-
     render() {
         let { isDataLoaded, topLayerIndex, timeFilter, toggleTimeFilter, toggleLayerOrder, handleDropdownChange, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList, openPolygonModal, editor } = this.props;
 

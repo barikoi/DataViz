@@ -349,6 +349,10 @@
                             {
                                 "name": "created_at",
                                 "format": null
+                            },
+                            {
+                                "name": "created_date",
+                                "format": null
                             }
                         ],
                         "vault_point_data": [
@@ -386,6 +390,10 @@
                             },
                             {
                                 "name": "created_at",
+                                "format": null
+                            },
+                            {
+                                "name": "created_date",
                                 "format": null
                             },
                             {

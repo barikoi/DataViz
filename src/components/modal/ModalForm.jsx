@@ -413,6 +413,7 @@ class ModalForm extends React.PureComponent {
                         width={ 0 }
                         onChange={ this.handleImageUploadOnChange }
                         marginBottom={ 8 }
+                        disabled={ true }
                     />
                 </Pane>
 
