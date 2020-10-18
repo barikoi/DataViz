@@ -8,6 +8,7 @@ import PointsInPolygonModal from './PointsInPolygonModal';
 import Draggable from 'react-draggable';
 import Modal from './modal/Modal';
 import ConfirmModal from './modal/ConfirmModal';
+import SearchBar from './SearchBar';
 
 // Import Actions
 import * as ActionTypes from '../store/actions/actionTypes';
@@ -15,6 +16,7 @@ import { loadDataToMap, updateBirdsEyePlace, updateVaultPlace, deleteBirdsEyePla
 import { toggleTopLayer, setCurrentLayerVisibleOnly, handleColorFieldByChange, upadatePointRadiusWithMapZoom } from '../store/actions/layerActions';
 import { setCurrentTimeFilterEnlarged, toggleAllTimeFilterView, handleBirdsEyeFilterFieldSelect, handleVaultFilterFieldSelect, handleBirdsEyeFilterValueSelect, handleVaultFilterValueSelect } from '../store/actions/filterActions';
 import { dispatchSetTopLayer, dispatchSetCurrentLayer, dispatchSetCurrentTimeFilter, dispatchToggleTimeFilterView, dispatchBirdsEyeSelectedField, dispatchVaultSelectedField, dispatchBirdsEyeSelectedFilterValue, dispatchVaultSelectedFilterValue, dispatchSetPolygonModal } from '../store/actions/dispatchActions';
+import { highlightPlaceOnSearch } from '../store/actions/mapActions';
 
 const MAPBOX_API_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN;
 
@@ -289,6 +291,11 @@ class KeplerGlMap extends React.Component {
         this.hideToPlaceModal()
     }
 
+    // Handle Submission from Map Search
+    handleMapSearchSubmission = selectedPlace => {
+        this.props.dispatch( highlightPlaceOnSearch(selectedPlace) )
+    }
+
     render() {
         let { width, height } = this.props;
         let { isDataLoaded, topLayerIndex, timeFilter, layerDropdownList, selectedLayer, fieldDropdownList, valueDropdownList , polygonModal, isUpdateModalOpen, isReToolModalOpen, isDeleteModalOpen, isToVaultModalOpen, isToPlaceModalOpen, modalInputData } = this.props.app.sidePanel;
@@ -319,6 +326,10 @@ class KeplerGlMap extends React.Component {
                     width={ width }
                     height={ height }
                 />
+
+                { isDataLoaded &&
+                    <SearchBar handleMapSearchSubmission={ this.handleMapSearchSubmission } />
+                }
 
                 { isUpdateModalOpen &&
                     <Modal
